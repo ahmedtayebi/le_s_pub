@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────
+   Tailwind v4 Theme Tokens
+   ─────────────────────────────────────────────── */
+@theme inline {
+  /* Colors */
+  --color-gold: #C9A84C;
+  --color-gold-light: #F0C040;
+  --color-gold-dark: #A8832A;
+  --color-charcoal: #1C1C1C;
+  --color-charcoal-deep: #111111;
+  --color-glass: rgba(255, 255, 255, 0.04);
+
+  /* Font Family */
+  --font-cairo: "Cairo", sans-serif;
+
+  /* Border Radius */
+  --radius-card: 24px;
+  --radius-hero: 48px;
+  --radius-form: 30px;
+
+  /* Box Shadow */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.07);
+  --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.18);
+  --shadow-gold: 0 0 30px rgba(201, 168, 76, 0.3);
+}
+
+/* ───────────────────────────────────────────────
+   Base Styles
+   ─────────────────────────────────────────────── */
+html {
+  direction: rtl;
+  font-family: "Cairo", sans-serif;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: var(--color-charcoal-deep);
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ───────────────────────────────────────────────
+   Custom Scrollbar
+   ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C9A84C;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A8832A;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C9A84C #111111;
+}
+
+/* ───────────────────────────────────────────────
+   Keyframe Animations
+   ─────────────────────────────────────────────── */
+
+/* Gold shimmer */
+@keyframes shimmer {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Float */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* Pulse glow for WhatsApp button */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 10px rgba(37, 211, 102, 0.25);
+  }
+}
+
+/* ───────────────────────────────────────────────
+   Utility Classes
+   ─────────────────────────────────────────────── */
+.animate-shimmer {
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
