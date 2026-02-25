@@ -162,13 +162,6 @@ function PricingTable({
 }) {
     const lastQtyIdx = item.quantities.length - 1;
 
-    const handleOrder = () => {
-        document.getElementById("order-form")?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
-    };
-
     return (
         <div className="mt-6">
             {/* Quick Info Bar */}
@@ -280,37 +273,20 @@ function PricingTable({
                 </table>
             </div>
 
-            {/* CTA */}
-            <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={handleOrder}
-                className="w-full mt-5 font-bold cursor-pointer transition-all duration-300"
+            <div
                 style={{
-                    background: "#C9A84C",
-                    color: "#000",
-                    padding: "14px 0",
-                    borderRadius: "12px",
-                    border: "none",
-                    fontSize: "0.95rem",
-                }}
-                onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "#A8832A";
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                        "0 0 25px rgba(201,168,76,0.4)";
-                }}
-                onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "#C9A84C";
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                    borderTop: "1px solid rgba(201,168,76,0.15)",
+                    background: "rgba(201,168,76,0.04)",
+                    padding: "12px",
+                    textAlign: "center",
+                    color: "#666",
+                    fontSize: "0.8rem",
+                    fontStyle: "italic",
+                    marginTop: "14px",
                 }}
             >
-                اطلب هذا المنتج
-            </motion.button>
-
-            {/* Note */}
-            <p className="text-center text-[11px] text-[#666] mt-3 italic">
-                * الأسعار بالدينار الجزائري للقطعة الواحدة — شاملة الطباعة
-            </p>
+                ⬇️ لطلب هذا المنتج — انتقل لنموذج الطلب أسفل الصفحة
+            </div>
         </div>
     );
 }

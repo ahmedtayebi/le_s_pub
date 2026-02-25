@@ -3,6 +3,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import ProductCards from "@/components/sections/ProductCards";
 import SpecsAccordion from "@/components/sections/SpecsAccordion";
 import OrderForm from "@/components/sections/OrderForm";
+import Footer from "@/components/sections/Footer";
 import Navbar from "@/components/sections/Navbar";
 import FadeInSection from "@/components/ui/FadeInSection";
 import ScrollProgress from "@/components/ui/ScrollProgress";
@@ -43,6 +44,7 @@ export default function Home() {
         <OrderForm />
       </FadeInSection>
 
+      <Footer />
       <WhatsAppFloat />
     </>
   );
