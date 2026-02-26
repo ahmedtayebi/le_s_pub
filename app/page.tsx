@@ -9,11 +9,11 @@ import FadeInSection from "@/components/ui/FadeInSection";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import WaveDivider from "@/components/ui/WaveDivider";
 
-export const metadata: Metadata = {
-  title: "أكياس مطبوعة | تصميم وطباعة أكياس فاخرة في الجزائر",
-  description:
-    "نصنع لك أكياس ورقية وقماشية بطباعة فاخرة تعكس هوية علامتك التجارية. جودة عالية، تسليم سريع في كل أنحاء الجزائر. اطلب الآن!",
-};
+// export const metadata: Metadata = {
+//   title: "Le_S_Pub | تصميم وطباعة أكياس فاخرة في الجزائر",
+//   description:
+//     "نصنع لك أكياس ورقية وقماشية بطباعة فاخرة تعكس هوية علامتك التجارية. جودة عالية، تسليم سريع في كل أنحاء الجزائر. اطلب الآن!",
+// };
 
 export default function Home() {
   return (
