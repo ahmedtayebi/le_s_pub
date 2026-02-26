@@ -18,10 +18,7 @@ interface SpecItem {
     titleFr: string;
     titleAr: string;
     image: string;
-    material: string;
-    printing: string;
     minOrder: string;
-    delay: string;
     customization: string;
     quantities: string[];
     pricing: PricingRow[];
@@ -33,10 +30,7 @@ const specs: SpecItem[] = [
         titleFr: "SAC SHOPPING",
         titleAr: "كيس التسوق",
         image: "/sac_shopping-removebg-preview.png",
-        material: "بلاستيك HDPE مقوى",
-        printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
-        delay: "5 – 10 أيام عمل",
         customization: "شعار + اسم المحل",
         quantities: ["+200", "+500", "+1000", "+5000"],
         pricing: [
@@ -51,10 +45,7 @@ const specs: SpecItem[] = [
         titleFr: "SAC 5Kg",
         titleAr: "كيس 5 كغ",
         image: "/sac_5kg-removebg-preview.png",
-        material: "بلاستيك LDPE سماكة 5 ميكرون",
-        printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
-        delay: "5 – 10 أيام عمل",
         customization: "شعار + اسم المحل",
         quantities: ["+200", "+500", "+1000", "+5000"],
         pricing: [
@@ -69,10 +60,7 @@ const specs: SpecItem[] = [
         titleFr: "SAC PAPIER RIGIDE",
         titleAr: "كيس ريقيد",
         image: "/sac_riged-removebg-preview.png",
-        material: "ورق ريقيد كوشيه 200g",
-        printing: "طباعة أوفست فاخرة متعددة الألوان",
         minOrder: "200 قطعة",
-        delay: "7 – 12 أيام عمل",
         customization: "شعار + ألوان العلامة التجارية",
         quantities: ["+200", "+500", "+1000"],
         pricing: [
@@ -88,10 +76,7 @@ const specs: SpecItem[] = [
         titleFr: "SAC PAPIER CRAFT",
         titleAr: "كيس كرافت",
         image: "/sac_craft-removebg-preview.png",
-        material: "ورق كرافت طبيعي 120g",
-        printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
-        delay: "5 – 10 أيام عمل",
         customization: "شعار + اسم العلامة التجارية",
         quantities: ["+200", "+500", "+1000"],
         pricing: [
@@ -107,10 +92,7 @@ const specs: SpecItem[] = [
         titleFr: "SAC DE LIVRAISON",
         titleAr: "كيس التوصيل",
         image: "/sac_delivration-removebg-preview.png",
-        material: "بولي إيثيلين مقاوم — E-PACK",
-        printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
-        delay: "5 – 8 أيام عمل",
         customization: "شعار + اسم الشركة + رقم التواصل",
         quantities: ["+200", "+500", "+1000"],
         pricing: [
@@ -184,10 +166,7 @@ function PricingTable({
         <div className="mt-6">
             {/* Quick Info Bar */}
             <div className="flex flex-wrap gap-2 mb-6">
-                <InfoPill icon="🏭" label={`المادة: ${item.material}`} />
-                <InfoPill icon="🖨" label={`الطباعة: ${item.printing}`} />
                 <InfoPill icon="📦" label={`أدنى كمية: ${item.minOrder}`} />
-                <InfoPill icon="⏱" label={`مدة الإنجاز: ${item.delay}`} />
             </div>
 
             {/* Table */}
