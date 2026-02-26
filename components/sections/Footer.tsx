@@ -19,7 +19,7 @@ const quickLinks: QuickLink[] = [
   { label: "الرئيسية", target: "top" },
   { label: "أنواع الأكياس", target: "#products" },
   { label: "جدول الأسعار", target: "#specs" },
-  { label: "اطلب عرض سعر", target: "#order-form" },
+  { label: "أرسل طلبك الان", target: "#order-form" },
 ];
 
 const socialLinks: SocialLink[] = [

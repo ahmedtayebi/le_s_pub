@@ -394,7 +394,7 @@ export default function OrderForm() {
                                 <input
                                     {...register("fullName", { required: "هذا الحقل مطلوب" })}
                                     type="text"
-                                    placeholder="مثال: أحمد بن يوسف"
+                                    placeholder="مثال:أحمد الطيبي"
                                     style={errors.fullName ? errorInputStyle : baseInputStyle}
                                     {...inputFocusHandlers(!!errors.fullName)}
                                 />

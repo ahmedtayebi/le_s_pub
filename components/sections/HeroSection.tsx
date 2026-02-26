@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 /* ─── Gold Particle Canvas ─── */
 function GoldParticles() {
@@ -75,139 +76,6 @@ function GoldParticles() {
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: 1 }}
         />
-    );
-}
-
-/* ─── 3D Bag Card ─── */
-function BagCard({
-    children,
-    label,
-    delay,
-}: {
-    children: React.ReactNode;
-    label: string;
-    delay: number;
-}) {
-    const [hovered, setHovered] = useState(false);
-
-    return (
-        <motion.div
-            className="flex flex-col items-center gap-3"
-            animate={
-                hovered
-                    ? { rotateY: 15, rotateX: -8 }
-                    : { rotateY: 0, rotateX: 0 }
-            }
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            style={{ perspective: 800 }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-        >
-            <div
-                className="animate-float"
-                style={{ animationDelay: `${delay}s` }}
-            >
-                {children}
-            </div>
-            <span className="text-sm text-gold/80 font-semibold">{label}</span>
-        </motion.div>
-    );
-}
-
-/* ─── Bag Visuals ─── */
-function WhiteBag() {
-    return (
-        <div className="relative w-[120px] h-[150px] md:w-[140px] md:h-[170px]">
-            {/* Handle */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[18px] flex justify-between px-2 z-10">
-                <div className="w-[3px] h-full rounded-full bg-[#8B7355]" />
-                <div className="w-[3px] h-full rounded-full bg-[#8B7355]" />
-            </div>
-            <div className="absolute top-[2px] left-1/2 -translate-x-1/2 w-[50%] h-[12px] border-t-[3px] border-[#8B7355] rounded-t-full" />
-            {/* Body */}
-            <div
-                className="absolute top-[16px] inset-x-0 bottom-0 rounded-b-xl overflow-hidden"
-                style={{
-                    background: "linear-gradient(145deg, #ffffff 0%, #f0ede6 100%)",
-                    boxShadow: "6px 8px 24px rgba(0,0,0,0.25), inset -2px 0 6px rgba(0,0,0,0.04)",
-                }}
-            >
-                {/* Side fold */}
-                <div className="absolute right-0 top-0 w-[14%] h-full bg-gradient-to-l from-[#e0ddd6] to-transparent" />
-                {/* Bottom fold */}
-                <div className="absolute bottom-0 left-0 right-0 h-[12%] bg-gradient-to-t from-[#dad7d0] to-transparent" />
-                {/* Logo area */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full border-2 border-[#C9A84C]/40 flex items-center justify-center">
-                        <span className="text-[#C9A84C] text-xs font-bold">LOGO</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function BlackBag() {
-    return (
-        <div className="relative w-[120px] h-[150px] md:w-[140px] md:h-[170px]">
-            {/* Handle */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[18px] flex justify-between px-2 z-10">
-                <div className="w-[3px] h-full rounded-full bg-[#C9A84C]" />
-                <div className="w-[3px] h-full rounded-full bg-[#C9A84C]" />
-            </div>
-            <div className="absolute top-[2px] left-1/2 -translate-x-1/2 w-[50%] h-[12px] border-t-[3px] border-[#C9A84C] rounded-t-full" />
-            {/* Body */}
-            <div
-                className="absolute top-[16px] inset-x-0 bottom-0 rounded-b-xl overflow-hidden"
-                style={{
-                    background: "linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #111 100%)",
-                    boxShadow: "6px 8px 24px rgba(0,0,0,0.4), inset -2px 0 6px rgba(255,255,255,0.03)",
-                }}
-            >
-                {/* Side fold */}
-                <div className="absolute right-0 top-0 w-[14%] h-full bg-gradient-to-l from-[#0d0d0d] to-transparent" />
-                {/* Bottom fold */}
-                <div className="absolute bottom-0 left-0 right-0 h-[12%] bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-                {/* Gold logo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex flex-col items-center gap-1">
-                        <div className="w-8 h-[2px] bg-[#C9A84C]/60 rounded" />
-                        <span className="text-[#C9A84C] text-[10px] font-bold tracking-widest">PREMIUM</span>
-                        <div className="w-8 h-[2px] bg-[#C9A84C]/60 rounded" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function GlassBag() {
-    return (
-        <div className="relative w-[120px] h-[150px] md:w-[140px] md:h-[170px]">
-            {/* Handle */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[18px] flex justify-between px-2 z-10">
-                <div className="w-[3px] h-full rounded-full bg-white/30" />
-                <div className="w-[3px] h-full rounded-full bg-white/30" />
-            </div>
-            <div className="absolute top-[2px] left-1/2 -translate-x-1/2 w-[50%] h-[12px] border-t-[3px] border-white/30 rounded-t-full" />
-            {/* Body */}
-            <div
-                className="absolute top-[16px] inset-x-0 bottom-0 rounded-b-xl overflow-hidden"
-                style={{
-                    background: "linear-gradient(145deg, rgba(120,180,230,0.12) 0%, rgba(80,140,200,0.06) 100%)",
-                    backdropFilter: "blur(8px)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    boxShadow: "6px 8px 24px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.03)",
-                }}
-            >
-                {/* Reflection */}
-                <div className="absolute top-[10%] left-[10%] w-[30%] h-[50%] bg-gradient-to-br from-white/10 to-transparent rounded-lg rotate-[-12deg]" />
-                {/* Logo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-white/30 text-[10px] font-bold tracking-widest">ECO</span>
-                </div>
-            </div>
-        </div>
     );
 }
 
@@ -345,16 +213,19 @@ export default function HeroSection() {
                                 (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
                             }}
                         >
-                            اطلب عرض سعر
+                            اطلب تصميمك الان
                         </motion.button>
 
-                        {/* WhatsApp button */}
+                        {/* Prices button */}
                         <motion.button
                             whileHover={{ scale: 1.04 }}
                             whileTap={{ scale: 0.97 }}
-                            onClick={() =>
-                                window.open("https://wa.me/213777640477", "_blank")
-                            }
+                            onClick={() => {
+                                document.getElementById("products")?.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start",
+                                });
+                            }}
                             className="font-bold cursor-pointer transition-all duration-300"
                             style={{
                                 background: "transparent",
@@ -373,7 +244,7 @@ export default function HeroSection() {
                                 (e.currentTarget as HTMLButtonElement).style.color = "#fff";
                             }}
                         >
-                            تواصل عبر واتساب 💬
+                            استعرض الأسعار ✦
                         </motion.button>
                     </div>
                 </motion.div>
@@ -386,27 +257,147 @@ export default function HeroSection() {
                     whileInView="visible"
                     viewport={{ once: true }}
                 >
-                    <div className="relative w-full max-w-[400px] h-[350px] md:h-[400px]">
-                        {/* Bag 1 — White — top-right */}
-                        <div className="absolute top-0 right-0 md:right-4">
-                            <BagCard label="كيس كلاسيكي" delay={0}>
-                                <WhiteBag />
-                            </BagCard>
-                        </div>
+                        <div
+                            style={{
+                                position: "relative",
+                                width: "100%",
+                            height: "500px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        {/* Layer 1 — Gold radial glow BEHIND image */}
+                        <div
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                background:
+                                    "radial-gradient(ellipse 80% 70% at 50% 60%, rgba(201,168,76,0.18) 0%, transparent 70%)",
+                                zIndex: 1,
+                            }}
+                        />
 
-                        {/* Bag 2 — Black — bottom-left */}
-                        <div className="absolute bottom-0 left-0 md:left-4">
-                            <BagCard label="كيس فاخر" delay={0.8}>
-                                <BlackBag />
-                            </BagCard>
-                        </div>
+                        {/* Layer 3 — THE MAIN PRODUCT IMAGE */}
+                        <motion.div
+                            style={{
+                                position: "relative",
+                                zIndex: 2,
+                                width: "100%",
+                                height: "100%",
+                            }}
+                            initial={{ opacity: 0, scale: 0.85, y: 30 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{
+                                duration: 0.9,
+                                ease: [0.22, 1, 0.36, 1],
+                                delay: 0.5,
+                            }}
+                        >
+                            {/* Continuous slow float animation wrapper */}
+                            <motion.div
+                                style={{ width: "100%", height: "100%", position: "relative" }}
+                                animate={{ y: [0, -14, 0] }}
+                                transition={{
+                                    duration: 5,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                }}
+                            >
+                                <Image
+                                    src="/cover.png"
+                                    alt="Le S Publicité — أكياس مطبوعة فاخرة"
+                                    fill
+                                    priority
+                                    style={{
+                                        objectFit: "contain",
+                                        objectPosition: "center",
+                                        filter:
+                                            "drop-shadow(0 30px 60px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(201,168,76,0.15))",
+                                    }}
+                                />
+                            </motion.div>
+                        </motion.div>
 
-                        {/* Bag 3 — Glass — center-right */}
-                        <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/4">
-                            <BagCard label="كيس شفاف" delay={1.6}>
-                                <GlassBag />
-                            </BagCard>
-                        </div>
+                        {/* Layer 5 — Floating gold badge top-right */}
+                        {/* <motion.div
+                            style={{
+                                position: "absolute",
+                                top: "12%",
+                                right: "5%",
+                                zIndex: 4,
+                                background: "rgba(0,0,0,0.7)",
+                                backdropFilter: "blur(12px)",
+                                border: "1px solid rgba(201,168,76,0.4)",
+                                borderRadius: "20px",
+                                padding: "8px 16px",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                            }}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 1.2, duration: 0.6 }}
+                        >
+                            <div
+                                style={{
+                                    width: "8px",
+                                    height: "8px",
+                                    borderRadius: "50%",
+                                    background: "#C9A84C",
+                                    boxShadow: "0 0 8px rgba(201,168,76,0.8)",
+                                }}
+                            />
+                            <span
+                                style={{
+                                    color: "#C9A84C",
+                                    fontSize: "0.78rem",
+                                    fontWeight: 700,
+                                    letterSpacing: "0.5px",
+                                }}
+                            >
+                                جودة مضمونة 100%
+                            </span>
+                        </motion.div> */}
+
+                        {/* Layer 6 — Floating product count badge bottom-left */}
+                        {/* <motion.div
+                            style={{
+                                position: "absolute",
+                                bottom: "14%",
+                                left: "5%",
+                                zIndex: 4,
+                                background: "rgba(201,168,76,0.12)",
+                                backdropFilter: "blur(12px)",
+                                border: "1px solid rgba(201,168,76,0.3)",
+                                borderRadius: "16px",
+                                padding: "10px 18px",
+                                textAlign: "center",
+                            }}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 1.4, duration: 0.6 }}
+                        >
+                            <div
+                                style={{
+                                    color: "#C9A84C",
+                                    fontSize: "1.4rem",
+                                    fontWeight: 900,
+                                    lineHeight: 1,
+                                }}
+                            >
+                                5
+                            </div>
+                            <div
+                                style={{
+                                    color: "#888",
+                                    fontSize: "0.72rem",
+                                    marginTop: "2px",
+                                }}
+                            >
+                                أنواع من الأكياس
+                            </div>
+                        </motion.div> */}
                     </div>
                 </motion.div>
             </div>
