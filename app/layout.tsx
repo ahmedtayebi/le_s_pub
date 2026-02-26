@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { OrderProvider } from '@/context/OrderContext'
 
 export const metadata: Metadata = {
   title: "أكياس مطبوعة | تصميم وطباعة أكياس فاخرة في الجزائر",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body>
-        <main>{children}</main>
+        <OrderProvider>
+          <main>{children}</main>
+        </OrderProvider>
       </body>
     </html>
   );

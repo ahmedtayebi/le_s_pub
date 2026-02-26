@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 type QuickLink = {
   label: string;
@@ -12,8 +13,6 @@ type SocialLink = {
   name: "Instagram" | "Facebook" | "WhatsApp";
   handle: string;
   href: string;
-  bgColor: string;
-  borderColor: string;
 };
 
 const quickLinks: QuickLink[] = [
@@ -28,22 +27,16 @@ const socialLinks: SocialLink[] = [
     name: "Instagram",
     handle: "@le_s_pub",
     href: "https://instagram.com/le_s_pub",
-    bgColor: "rgba(225,48,108,0.1)",
-    borderColor: "rgba(225,48,108,0.2)",
   },
   {
     name: "Facebook",
     handle: "Le s pub",
     href: "https://facebook.com/Le-s-pub",
-    bgColor: "rgba(24,119,242,0.1)",
-    borderColor: "rgba(24,119,242,0.2)",
   },
   {
     name: "WhatsApp",
-    handle: "07 77 64 04 77",
+    handle: "0777640477",
     href: "https://wa.me/213777640477",
-    bgColor: "rgba(37,211,102,0.1)",
-    borderColor: "rgba(37,211,102,0.2)",
   },
 ];
 
@@ -94,16 +87,85 @@ function WhatsAppIcon({ size = 18 }: { size?: number }) {
   );
 }
 
-function SocialPrimaryIcon({ name }: { name: SocialLink["name"] }) {
-  if (name === "Instagram") return <InstagramIcon size={18} />;
-  if (name === "Facebook") return <FacebookIcon size={18} />;
-  return <WhatsAppIcon size={18} />;
+function SocialPrimaryIcon({ name, color }: { name: SocialLink["name"]; color: string }) {
+  if (name === "Instagram") return <div style={{ color }}><InstagramIcon size={16} /></div>;
+  if (name === "Facebook") return <div style={{ color }}><FacebookIcon size={16} /></div>;
+  return <div style={{ color }}><WhatsAppIcon size={16} /></div>;
 }
 
 function SocialTinyIcon({ name }: { name: SocialLink["name"] }) {
   if (name === "Instagram") return <InstagramIcon size={16} />;
   if (name === "Facebook") return <FacebookIcon size={16} />;
   return <WhatsAppIcon size={16} />;
+}
+
+function SocialCard({ social }: { social: SocialLink }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const getBrandColors = () => {
+    if (social.name === "Instagram") {
+      return {
+        hoverBorder: "rgba(225,48,108,0.5)",
+        hoverBg: "rgba(225,48,108,0.06)",
+        hoverIcon: "#E1306C",
+      };
+    }
+    if (social.name === "Facebook") {
+      return {
+        hoverBorder: "rgba(24,119,242,0.5)",
+        hoverBg: "rgba(24,119,242,0.06)",
+        hoverIcon: "#1877F2",
+      };
+    }
+    return {
+      hoverBorder: "rgba(37,211,102,0.5)",
+      hoverBg: "rgba(37,211,102,0.06)",
+      hoverIcon: "#25D366",
+    };
+  };
+
+  const colors = getBrandColors();
+
+  return (
+    <motion.a
+      href={social.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ x: -5, scale: 1.02 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="flex items-center gap-[10px] flex-1 min-width-[140px]"
+      style={{
+        padding: "8px 12px",
+        borderRadius: "12px",
+        border: `1px solid ${isHovered ? colors.hoverBorder : "rgba(255,255,255,0.08)"}`,
+        background: isHovered ? colors.hoverBg : "rgba(255,255,255,0.03)",
+        marginBottom: "6px",
+      }}
+    >
+      <div
+        className="flex items-center justify-center rounded-full"
+        style={{
+          width: "34px",
+          height: "34px",
+          background: "rgba(255,255,255,0.05)",
+          transition: "all 0.25s ease",
+        }}
+      >
+        <SocialPrimaryIcon name={social.name} color={isHovered ? colors.hoverIcon : "#888"} />
+      </div>
+
+      <div className="flex flex-col">
+        <span className="text-white font-semibold" style={{ fontSize: "0.82rem" }}>
+          {social.name}
+        </span>
+        <span className="text-[#888]" style={{ fontSize: "0.72rem" }}>
+          {social.handle}
+        </span>
+      </div>
+    </motion.a>
+  );
 }
 
 export default function Footer() {
@@ -157,7 +219,7 @@ export default function Footer() {
               alt="Le S Publicité"
               width={160}
               height={80}
-              className="w-auto h-auto object-contain"
+              className="w-100 h-50 object-contain"
             />
           </motion.div>
 
@@ -278,51 +340,19 @@ export default function Footer() {
           >
             <SectionTitle title="تواصل معنا" />
 
-            <a
+            {/* <a
               href="tel:+213777640477"
               className="inline-flex items-center gap-2 text-white font-extrabold text-[1.3rem] transition-colors duration-200 hover:text-[#C9A84C]"
             >
               <span style={{ color: "#C9A84C" }}>
                 <PhoneIcon size={18} />
               </span>
-              07 77 64 04 77
-            </a>
+              0777640477
+            </a> */}
 
-            <div className="mt-4">
+            <div className="mt-4 flex flex-row flex-wrap gap-2">
               {socialLinks.map((social) => (
-                <motion.a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ x: -6, scale: 1.02, borderColor: "rgba(201,168,76,0.4)" }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-3"
-                  style={{
-                    padding: "10px 14px",
-                    borderRadius: "12px",
-                    border: `1px solid ${social.borderColor}`,
-                    background: social.bgColor,
-                    marginBottom: "8px",
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-center rounded-full"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      background: "rgba(201,168,76,0.1)",
-                      color: "#C9A84C",
-                    }}
-                  >
-                    <SocialPrimaryIcon name={social.name} />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <span className="text-white text-[0.85rem] font-semibold">{social.name}</span>
-                    <span className="text-[#888] text-xs">{social.handle}</span>
-                  </div>
-                </motion.a>
+                <SocialCard key={social.name} social={social} />
               ))}
             </div>
           </motion.div>
@@ -330,11 +360,15 @@ export default function Footer() {
 
         <section style={{ background: "#050505", padding: "20px 24px" }}>
           <div className="mx-auto max-w-[1100px] flex flex-wrap items-center justify-between gap-4">
-            <span className="text-[#444] text-[0.8rem]">صُنع بـ ❤️ في الجزائر 🇩🇿</span>
+            {/* <span className="text-[#666]" style={{ fontSize: "0.75rem" }}>
+              صُنع بـ ❤️ في الجزائر 🇩🇿
+            </span> */}
 
-            <span className="text-[#333] text-[0.8rem]">© 2025 Le S Publicité — جميع الحقوق محفوظة</span>
+            <span className="text-[#666] text-center flex-1" style={{ fontSize: "0.75rem" }}>
+              © 2026 Le S Publicité — جميع الحقوق محفوظة
+            </span>
 
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               {socialLinks.map((social) => (
                 <motion.a
                   key={`tiny-${social.name}`}
@@ -348,14 +382,14 @@ export default function Footer() {
                     width: "32px",
                     height: "32px",
                     background: "rgba(255,255,255,0.04)",
-                    color: "#555",
+                    color: "#666",
                   }}
                   aria-label={social.name}
                 >
                   <SocialTinyIcon name={social.name} />
                 </motion.a>
               ))}
-            </div>
+            </div> */}
           </div>
         </section>
       </div>

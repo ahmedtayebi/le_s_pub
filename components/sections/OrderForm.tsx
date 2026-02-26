@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
+import { useOrder } from '@/context/OrderContext'
 
 /* ─────────────────────────────────────────────
    Algerian Wilayas (58)
@@ -50,7 +51,8 @@ const baseInputStyle: React.CSSProperties = {
     fontFamily: "'Cairo', sans-serif",
     fontSize: "0.95rem",
     color: "#1C1C1C",
-    background: "#fff",
+    backgroundColor: "#fff",
+    backgroundImage: "none",
     outline: "none",
     transition: "all 0.2s ease",
 };
@@ -58,7 +60,7 @@ const baseInputStyle: React.CSSProperties = {
 const errorInputStyle: React.CSSProperties = {
     ...baseInputStyle,
     borderColor: "#E53E3E",
-    background: "rgba(229,62,62,0.03)",
+    backgroundColor: "rgba(229,62,62,0.03)",
 };
 
 function inputFocusHandlers(hasError: boolean) {
@@ -199,8 +201,32 @@ export default function OrderForm() {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<FormData>({ mode: "onTouched" });
+
+    const { orderSelection } = useOrder();
+    const [isDismissed, setIsDismissed] = useState(false);
+
+    useEffect(() => {
+        if (orderSelection.product) {
+            setIsDismissed(false);
+            const productMap: Record<string, string> = {
+                'SAC SHOPPING': 'sac-shopping',
+                'SAC 5KG': 'sac-5kg',
+                'SAC 5Kg': 'sac-5kg',
+                'SAC PAPIER RIGIDE': 'sac-rigide',
+                'SAC PAPIER CRAFT': 'sac-craft',
+                'SAC DE LIVRAISON': 'sac-livraison'
+            }
+            const productKey = Object.keys(productMap).find(k =>
+                orderSelection.product.toUpperCase().includes(k.toUpperCase())
+            )
+            if (productKey) setValue('bagType', productMap[productKey]);
+            if (orderSelection.size) setValue('size', orderSelection.size);
+            if (orderSelection.quantity) setValue('quantity', Number(orderSelection.quantity));
+        }
+    }, [orderSelection, setValue]);
 
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -308,6 +334,53 @@ export default function OrderForm() {
                         </motion.p>
                     </div>
 
+                    {/* ── Auto-fill Banner ── */}
+                    <AnimatePresence>
+                        {orderSelection.product && !isDismissed && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                exit={{ opacity: 0, y: -10, height: 0 }}
+                                className="overflow-hidden"
+                            >
+                                <div
+                                    className="flex items-center justify-between gap-4 mb-6"
+                                    style={{
+                                        background: "rgba(201,168,76,0.08)",
+                                        border: "1px solid rgba(201,168,76,0.3)",
+                                        borderRadius: "12px",
+                                        padding: "12px 16px",
+                                    }}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-[#C9A84C]">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p style={{ color: "#C9A84C", fontWeight: 700, fontSize: "0.9rem" }}>
+                                                تم تحديد طلبك تلقائياً:
+                                            </p>
+                                            <p style={{ color: "#888", fontSize: "0.82rem" }}>
+                                                {orderSelection.product} — مقاس {orderSelection.size} — كمية {orderSelection.quantity}+
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsDismissed(true)}
+                                        className="text-[#C9A84C] hover:text-[#A8832A] transition-colors cursor-pointer"
+                                    >
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
                     {/* ── Form ── */}
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
 
@@ -372,6 +445,7 @@ export default function OrderForm() {
                                 style={{
                                     ...(errors.wilaya ? errorInputStyle : baseInputStyle),
                                     appearance: "none" as const,
+                                    backgroundColor: errors.wilaya ? "rgba(229,62,62,0.03)" : "#fff",
                                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "left 16px center",
@@ -399,13 +473,26 @@ export default function OrderForm() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             {/* Bag Type */}
                             <div>
-                                <label className="block text-sm font-bold text-[#444] mb-2">
-                                    نوع الكيس <span className="text-[#E53E3E]">*</span>
-                                </label>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="block text-sm font-bold text-[#444]">
+                                        نوع الكيس <span className="text-[#E53E3E]">*</span>
+                                    </label>
+                                    {orderSelection.product && (
+                                        <motion.span
+                                            initial={{ opacity: 0, x: 10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="text-[0.72rem] font-bold text-[#C9A84C]"
+                                        >
+                                            ✓ تم التحديد تلقائياً
+                                        </motion.span>
+                                    )}
+                                </div>
                                 <select
                                     {...register("bagType", { required: "يرجى اختيار نوع الكيس" })}
                                     style={{
                                         ...(errors.bagType ? errorInputStyle : baseInputStyle),
+                                        borderColor: orderSelection.product ? "#C9A84C" : (errors.bagType ? "#E53E3E" : "#E0E0E0"),
+                                        backgroundColor: orderSelection.product ? "rgba(201,168,76,0.04)" : (errors.bagType ? "rgba(229,62,62,0.03)" : "#fff"),
                                         appearance: "none" as const,
                                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
                                         backgroundRepeat: "no-repeat",
@@ -421,6 +508,7 @@ export default function OrderForm() {
                                     <option value="sac-5kg">💪 Sac 5Kg — كيس 5 كغ</option>
                                     <option value="sac-rigide">🎁 Sac Papier Rigide — كيس ريقيد</option>
                                     <option value="sac-craft">📦 Sac Papier Craft — كيس كرافت</option>
+                                    <option value="sac-livraison">🚚 Sac de Livraison — كيس التوصيل</option>
                                 </select>
                                 {errors.bagType && (
                                     <p className="text-[#E53E3E] text-xs mt-1 font-semibold">
@@ -431,9 +519,20 @@ export default function OrderForm() {
 
                             {/* Quantity */}
                             <div>
-                                <label className="block text-sm font-bold text-[#444] mb-2">
-                                    الكمية المطلوبة <span className="text-[#E53E3E]">*</span>
-                                </label>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="block text-sm font-bold text-[#444]">
+                                        الكمية المطلوبة <span className="text-[#E53E3E]">*</span>
+                                    </label>
+                                    {orderSelection.product && (
+                                        <motion.span
+                                            initial={{ opacity: 0, x: 10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="text-[0.72rem] font-bold text-[#C9A84C]"
+                                        >
+                                            ✓ تم التحديد تلقائياً
+                                        </motion.span>
+                                    )}
+                                </div>
                                 <input
                                     {...register("quantity", {
                                         required: "هذا الحقل مطلوب",
@@ -443,7 +542,11 @@ export default function OrderForm() {
                                     type="number"
                                     min={200}
                                     placeholder="200 كحد أدنى"
-                                    style={errors.quantity ? errorInputStyle : baseInputStyle}
+                                    style={{
+                                        ...(errors.quantity ? errorInputStyle : baseInputStyle),
+                                        borderColor: orderSelection.product ? "#C9A84C" : (errors.quantity ? "#E53E3E" : "#E0E0E0"),
+                                        backgroundColor: orderSelection.product ? "rgba(201,168,76,0.04)" : (errors.quantity ? "rgba(229,62,62,0.03)" : "#fff"),
+                                    }}
                                     {...inputFocusHandlers(!!errors.quantity)}
                                 />
                                 {errors.quantity && (
@@ -456,14 +559,29 @@ export default function OrderForm() {
 
                         {/* Size field */}
                         <div>
-                            <label className="block text-sm font-bold text-[#444] mb-2">
-                                المقاس المطلوب <span className="text-[#E53E3E]">*</span>
-                            </label>
+                            <div className="flex justify-between items-center mb-2">
+                                <label className="block text-sm font-bold text-[#444]">
+                                    المقاس المطلوب <span className="text-[#E53E3E]">*</span>
+                                </label>
+                                {orderSelection.product && (
+                                    <motion.span
+                                        initial={{ opacity: 0, x: 10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className="text-[0.72rem] font-bold text-[#C9A84C]"
+                                    >
+                                        ✓ تم التحديد تلقائياً
+                                    </motion.span>
+                                )}
+                            </div>
                             <input
                                 {...register("size", { required: "يرجى تحديد المقاس المطلوب" })}
                                 type="text"
                                 placeholder="مثال: 40/30 Cm"
-                                style={errors.size ? errorInputStyle : baseInputStyle}
+                                style={{
+                                    ...(errors.size ? errorInputStyle : baseInputStyle),
+                                    borderColor: orderSelection.product ? "#C9A84C" : (errors.size ? "#E53E3E" : "#E0E0E0"),
+                                    backgroundColor: orderSelection.product ? "rgba(201,168,76,0.04)" : (errors.size ? "rgba(229,62,62,0.03)" : "#fff"),
+                                }}
                                 {...inputFocusHandlers(!!errors.size)}
                             />
                             {errors.size && (
@@ -683,7 +801,7 @@ export default function OrderForm() {
                         </motion.button>
 
                         {/* WhatsApp alternative */}
-                        <div className="text-center">
+                        {/* <div className="text-center">
                             <p className="text-sm text-[#999] mb-2">أو تواصل معنا مباشرة</p>
                             <a
                                 href="https://wa.me/213777640477"
@@ -710,7 +828,7 @@ export default function OrderForm() {
                                 </svg>
                                 Le S Publicité — واتساب
                             </a>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </section>

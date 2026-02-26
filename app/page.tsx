@@ -8,7 +8,6 @@ import Navbar from "@/components/sections/Navbar";
 import FadeInSection from "@/components/ui/FadeInSection";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import WaveDivider from "@/components/ui/WaveDivider";
-import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
 
 export const metadata: Metadata = {
   title: "أكياس مطبوعة | تصميم وطباعة أكياس فاخرة في الجزائر",
@@ -45,7 +44,6 @@ export default function Home() {
       </FadeInSection>
 
       <Footer />
-      <WhatsAppFloat />
     </>
   );
 }

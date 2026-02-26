@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────
    Specs Data
@@ -16,7 +17,7 @@ interface SpecItem {
     id: number;
     titleFr: string;
     titleAr: string;
-    icon: string;
+    image: string;
     material: string;
     printing: string;
     minOrder: string;
@@ -31,7 +32,7 @@ const specs: SpecItem[] = [
         id: 1,
         titleFr: "SAC SHOPPING",
         titleAr: "كيس التسوق",
-        icon: "🛍",
+        image: "/sac_shopping-removebg-preview.png",
         material: "بلاستيك HDPE مقوى",
         printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
@@ -49,7 +50,7 @@ const specs: SpecItem[] = [
         id: 2,
         titleFr: "SAC 5Kg",
         titleAr: "كيس 5 كغ",
-        icon: "💪",
+        image: "/sac_5kg-removebg-preview.png",
         material: "بلاستيك LDPE سماكة 5 ميكرون",
         printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
@@ -67,7 +68,7 @@ const specs: SpecItem[] = [
         id: 3,
         titleFr: "SAC PAPIER RIGIDE",
         titleAr: "كيس ريقيد",
-        icon: "🎁",
+        image: "/sac_riged-removebg-preview.png",
         material: "ورق ريقيد كوشيه 200g",
         printing: "طباعة أوفست فاخرة متعددة الألوان",
         minOrder: "200 قطعة",
@@ -86,7 +87,7 @@ const specs: SpecItem[] = [
         id: 4,
         titleFr: "SAC PAPIER CRAFT",
         titleAr: "كيس كرافت",
-        icon: "📦",
+        image: "/sac_craft-removebg-preview.png",
         material: "ورق كرافت طبيعي 120g",
         printing: "طباعة فليكسو 1 أو 2 لون",
         minOrder: "200 قطعة",
@@ -100,6 +101,23 @@ const specs: SpecItem[] = [
             { size: "45/33 Cm", prices: [85, 81, 81] },
             { size: "45/44 Cm", prices: [90, 85, 82] },
         ],
+    },
+    {
+        id: 5,
+        titleFr: "SAC DE LIVRAISON",
+        titleAr: "كيس التوصيل",
+        image: "/sac_delivration-removebg-preview.png",
+        material: "بولي إيثيلين مقاوم — E-PACK",
+        printing: "طباعة فليكسو 1 أو 2 لون",
+        minOrder: "200 قطعة",
+        delay: "5 – 8 أيام عمل",
+        customization: "شعار + اسم الشركة + رقم التواصل",
+        quantities: ["+200", "+500", "+1000"],
+        pricing: [
+            { size: "20/30 Cm", prices: [35, 22, 20] },
+            { size: "30/40 Cm", prices: [40, 28, 26] },
+            { size: "40/50 Cm", prices: [45, 34, 31] }
+        ]
     },
 ];
 
@@ -351,7 +369,25 @@ function AccordionItem({
                     }}
                 >
                     <div className="flex items-center gap-4">
-                        <span className="text-[2rem] leading-none">{item.icon}</span>
+                        <div
+                            style={{
+                                width: "44px",
+                                height: "44px",
+                                position: "relative",
+                                flexShrink: 0,
+                            }}
+                        >
+                            <Image
+                                src={item.image}
+                                alt={item.titleFr}
+                                fill
+                                style={{
+                                    objectFit: "contain",
+                                    objectPosition: "center",
+                                    filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.4))",
+                                }}
+                            />
+                        </div>
                         <div className="flex flex-col items-start gap-1">
                             <span
                                 className="text-[1.1rem] font-bold"

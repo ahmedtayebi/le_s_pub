@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { useOrder } from '@/context/OrderContext'
 
 /* ─────────────────────────────────────────────
    Product Data
@@ -16,8 +18,9 @@ interface Product {
     id: number;
     titleFr: string;
     titleAr: string;
-    emoji: string;
-    bgColor: string;
+    image: string;
+    imageBackground: string;
+    glowOverlay: string;
     badgeColor: string;
     features: string[];
     sizes: SizeOption[];
@@ -29,8 +32,9 @@ const products: Product[] = [
         id: 1,
         titleFr: "SAC SHOPPING",
         titleAr: "كيس التسوق",
-        emoji: "🛍",
-        bgColor: "#F5F5F0",
+        image: "/sac_shopping-removebg-preview.png",
+        imageBackground: "linear-gradient(135deg, #fbd59bff 0%, #c09d5bff 40%, #b08f4eff 100%)",
+        glowOverlay: "radial-gradient(ellipse 70% 60% at 50% 40%, rgba(255,255,255,0.8) 0%, transparent 70%)",
         badgeColor: "#C9A84C",
         features: [
             "مقاوم وخفيف الوزن",
@@ -49,8 +53,9 @@ const products: Product[] = [
         id: 2,
         titleFr: "SAC 5Kg",
         titleAr: "كيس 5 كغ",
-        emoji: "💪",
-        bgColor: "#1a1a1a",
+        image: "/sac_5kg-removebg-preview.png",
+        imageBackground: "linear-gradient(135deg, #7575afff 0%, #b2c7feff 50%, #0f3460 100%)",
+        glowOverlay: "radial-gradient(ellipse 60% 50% at 50% 60%, rgba(247, 215, 126, 0.25) 0%, transparent 70%)",
         badgeColor: "#C9A84C",
         features: [
             "تحمل حتى 5 كيلوغرام",
@@ -69,8 +74,9 @@ const products: Product[] = [
         id: 3,
         titleFr: "SAC PAPIER RIGIDE",
         titleAr: "كيس ريقيد",
-        emoji: "🎁",
-        bgColor: "#FFF8EE",
+        image: "/sac_riged-removebg-preview.png",
+        imageBackground: "linear-gradient(145deg, #fae5c2ff 0%, #f5ede0 40%, #dbbe97ff 100%)",
+        glowOverlay: "radial-gradient(ellipse 65% 55% at 50% 35%, rgba(255,252,245,0.9) 0%, transparent 70%)",
         badgeColor: "#C9A84C",
         features: [
             "ورق ريقيد فاخر بمقابض",
@@ -90,8 +96,9 @@ const products: Product[] = [
         id: 4,
         titleFr: "SAC PAPIER CRAFT",
         titleAr: "كيس كرافت",
-        emoji: "📦",
-        bgColor: "#F5EDD8",
+        image: "/sac_craft-removebg-preview.png",
+        imageBackground: "linear-gradient(135deg, #d7c5b0ff 0%, #cdbcacff 50%, #f9d5aaff 100%)",
+        glowOverlay: "radial-gradient(ellipse 60% 55% at 50% 45%, rgba(201,168,76,0.3) 0%, rgba(139,105,20,0.15) 50%, transparent 70%)",
         badgeColor: "#8B6914",
         features: [
             "ورق كرافت طبيعي 100%",
@@ -107,6 +114,26 @@ const products: Product[] = [
         ],
         quantities: [200, 500, 1000],
     },
+    {
+        id: 5,
+        titleFr: "SAC DE LIVRAISON",
+        titleAr: "كيس التوصيل",
+        image: "/sac_delivration-removebg-preview.png",
+        imageBackground: "linear-gradient(135deg, #7e7d7dff 0%, #e0e0e0ff 60%, #1a1a1a 100%)",
+        glowOverlay: "linear-gradient(225deg, rgba(201,168,76,0.2) 0%, transparent 50%)",
+        badgeColor: "#C9A84C",
+        features: [
+            "يغلق بالشريط اللاسق — E-PACK",
+            "مقاوم للتمزق والرطوبة",
+            "مثالي لشركات التوصيل والتجارة الإلكترونية"
+        ],
+        sizes: [
+            { label: "20/30 Cm", prices: { 200: 35, 500: 22, 1000: 20 } },
+            { label: "30/40 Cm", prices: { 200: 40, 500: 28, 1000: 26 } },
+            { label: "40/50 Cm", prices: { 200: 45, 500: 34, 1000: 31 } }
+        ],
+        quantities: [200, 500, 1000]
+    },
 ];
 
 /* ─────────────────────────────────────────────
@@ -116,25 +143,19 @@ const products: Product[] = [
 function ProductCard({
     product,
     index,
+    isLast,
 }: {
     product: Product;
     index: number;
+    isLast?: boolean;
 }) {
     const [selectedSize, setSelectedSize] = useState(product.sizes[0].label);
     const [selectedQty, setSelectedQty] = useState(product.quantities[0]);
+    const { setOrderSelection } = useOrder()
 
     const sizeObj = product.sizes.find((s) => s.label === selectedSize)!;
     const currentPrice = sizeObj.prices[selectedQty] ?? 0;
     const totalPrice = currentPrice * selectedQty;
-
-    const isDark = product.bgColor === "#1a1a1a";
-
-    const handleOrder = () => {
-        document.getElementById("order-form")?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
-    };
 
     return (
         <motion.div
@@ -147,7 +168,7 @@ function ProductCard({
                 delay: index * 0.1,
             }}
             whileHover={{ y: -8 }}
-            className="group rounded-[24px] bg-white overflow-hidden transition-shadow duration-300"
+            className={`group rounded-[24px] bg-white overflow-hidden transition-shadow duration-300 ${isLast ? "lg:col-start-2" : ""}`}
             style={{
                 border: "1px solid rgba(0,0,0,0.06)",
                 boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
@@ -161,29 +182,66 @@ function ProductCard({
                     "0 4px 24px rgba(0,0,0,0.07)";
             }}
         >
-            {/* ── Card Top Visual ── */}
+            {/* ── Card Top Visual (Product Image) ── */}
             <div
-                className="relative h-[160px] flex flex-col items-center justify-center overflow-hidden"
-                style={{ background: product.bgColor }}
+                style={{
+                    background: product.imageBackground,
+                    position: 'relative',
+                    height: '260px',
+                    borderRadius: '16px 16px 0 0',
+                    overflow: 'hidden'
+                }}
             >
-                {/* Dot pattern overlay */}
-                <div
-                    className="absolute inset-0 opacity-[0.04]"
+                {/* Glow overlay behind image */}
+                <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: product.glowOverlay,
+                    zIndex: 1
+                }} />
+
+                {/* Product image on top of glow */}
+                <motion.div
                     style={{
-                        backgroundImage:
-                            "radial-gradient(circle, #000 1px, transparent 1px)",
-                        backgroundSize: "16px 16px",
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        zIndex: 2
                     }}
-                />
-                <span className="relative text-[5rem] leading-none mb-1 drop-shadow-lg">
-                    {product.emoji}
-                </span>
-                <span
-                    className="relative text-sm font-bold tracking-widest"
-                    style={{ color: isDark ? "#fff" : "#333" }}
+                    whileHover={{ scale: 1.06 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                 >
+                    <Image
+                        src={product.image}
+                        alt={product.titleFr}
+                        fill
+                        style={{
+                            objectFit: 'contain',
+                            objectPosition: 'center',
+                            padding: '1px',
+                            filter: 'drop-shadow(0 12px 32px rgba(0,0,0,0.35))'
+                        }}
+                    />
+                </motion.div>
+
+                {/* Bottom badge */}
+                <div style={{
+                    position: 'absolute',
+                    bottom: 12,
+                    right: 16,
+                    zIndex: 3,
+                    background: 'rgba(0,0,0,0.7)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(201,168,76,0.5)',
+                    borderRadius: 8,
+                    padding: '4px 12px',
+                    color: '#C9A84C',
+                    fontWeight: 700,
+                    fontSize: '0.78rem',
+                    letterSpacing: '1.5px'
+                }}>
                     {product.titleFr}
-                </span>
+                </div>
             </div>
 
             {/* ── Card Body ── */}
@@ -289,7 +347,7 @@ function ProductCard({
                                                 "#E0E0E0";
                                     }}
                                 >
-                                    +{qty.toLocaleString()}
+                                    +{qty}
                                 </motion.button>
                             );
                         })}
@@ -327,7 +385,7 @@ function ProductCard({
                         <span className="text-[11px] text-[#999]">
                             المجموع التقريبي:{" "}
                             <span className="font-bold text-[#666]">
-                                {totalPrice.toLocaleString()} دج
+                                {totalPrice} دج
                             </span>
                         </span>
                     </div>
@@ -352,16 +410,29 @@ function ProductCard({
                                 border: "1px solid rgba(201,168,76,0.2)",
                             }}
                         >
-                            ×{selectedQty.toLocaleString()} قطعة
+                            ×{selectedQty} قطعة
                         </span>
                     </div>
                 </div>
 
                 {/* ── CTA Button ── */}
-                <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={handleOrder}
+                <button
+                    onClick={() => {
+                        setOrderSelection({
+                            product: product.titleFr + " — " + product.titleAr,
+                            size: selectedSize,
+                            quantity: String(selectedQty),
+                        });
+                        setTimeout(() => {
+                            const formEl = document.getElementById("order-form");
+                            if (formEl) {
+                                formEl.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start",
+                                });
+                            }
+                        }, 100);
+                    }}
                     className="w-full font-bold cursor-pointer transition-all duration-300"
                     style={{
                         background: "#C9A84C",
@@ -370,6 +441,7 @@ function ProductCard({
                         borderRadius: "12px",
                         border: "none",
                         fontSize: "0.95rem",
+                        transition: "transform 0.15s ease, background 0.2s ease",
                     }}
                     onMouseEnter={(e) => {
                         (e.currentTarget as HTMLButtonElement).style.background = "#A8832A";
@@ -378,11 +450,24 @@ function ProductCard({
                     }}
                     onMouseLeave={(e) => {
                         (e.currentTarget as HTMLButtonElement).style.background = "#C9A84C";
+                        (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
                         (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                    }}
+                    onMouseDown={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform = "scale(0.97)";
+                    }}
+                    onMouseUp={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
+                    }}
+                    onTouchStart={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform = "scale(0.97)";
+                    }}
+                    onTouchEnd={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
                     }}
                 >
                     اطلب هذا المنتج
-                </motion.button>
+                </button>
 
                 {/* Min quantity note */}
                 <p className="text-center text-[11px] text-[#aaa]">
@@ -441,9 +526,14 @@ export default function ProductCards() {
                 </div>
 
                 {/* ── Products Grid ── */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {products.map((product, index) => (
-                        <ProductCard key={product.id} product={product} index={index} />
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            index={index}
+                            isLast={index === products.length - 1}
+                        />
                     ))}
                 </div>
             </div>
