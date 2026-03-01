@@ -1,29 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MessageSquare, PenTool, Rocket, ChevronLeft } from "lucide-react";
 
 /* ─────────────────────────────────────────────
    Steps Data
    ───────────────────────────────────────────── */
 
+const GOLD = "#C9A84C";
+
 const steps = [
     {
         number: "01",
-        icon: "💬",
+        icon: <MessageSquare size={28} color={GOLD} strokeWidth={1.8} />,
         title: "تواصل معنا",
         desc: "أرسل طلبك مع تفاصيل براندك، لوغوك، وما تريده بالضبط",
         duration: "اليوم الأول",
     },
     {
         number: "02",
-        icon: "🎨",
+        icon: <PenTool size={28} color={GOLD} strokeWidth={1.8} />,
         title: "نجهز تصميم صفحتك",
         desc: "فريقنا يبني صفحتك بتصميم عصري مخصص لعلامتك التجارية",
         duration: "24 - 48 ساعة",
     },
     {
         number: "03",
-        icon: "🚀",
+        icon: <Rocket size={28} color={GOLD} strokeWidth={1.8} />,
         title: "نطلق الصفحة جاهزة",
         desc: "صفحتك تصبح حية على الإنترنت جاهزة لاستقبال الزبائن",
         duration: "خلال 72 ساعة",
@@ -49,9 +52,9 @@ function ConnectorArrow() {
             <motion.div
                 animate={{ x: [0, 6, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                style={{ color: "rgba(201,168,76,0.6)", fontSize: "1.1rem", flexShrink: 0 }}
+                style={{ flexShrink: 0, display: "flex", alignItems: "center" }}
             >
-                ‹
+                <ChevronLeft size={24} color="rgba(201,168,76,0.6)" />
             </motion.div>
         </div>
     );
@@ -127,7 +130,6 @@ function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
                     border: "1px solid rgba(201,168,76,0.3)",
                     borderRadius: "50%",
                     margin: "0 auto 20px",
-                    fontSize: "1.8rem",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -196,7 +198,17 @@ export default function HowItWorks() {
                             textTransform: "uppercase",
                         }}
                     >
+                        <span style={{
+                            display: 'inline-block',
+                            width: '20px',
+                            height: '2px',
+                            background: '#C9A84C',
+                            borderRadius: '2px',
+                            marginLeft: '8px',
+                            verticalAlign: 'middle'
+                        }} />
                         العملية بسيطة جداً
+
                     </motion.p>
 
                     {/* H2 */}

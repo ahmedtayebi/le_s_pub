@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Check, ArrowLeft } from "lucide-react";
 
 /* ─────────────────────────────────────────────
    FinalCTA Section
@@ -62,8 +63,9 @@ export default function FinalCTA() {
                         marginBottom: "28px",
                     }}
                 >
-                    <span style={{ color: "#C9A84C", fontWeight: 700, fontSize: "0.88rem" }}>
-                        🚀 جاهز لرفع مستوى مشروعك؟
+                    <span style={{ color: "#C9A84C", fontWeight: 700, fontSize: "0.88rem", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                        <span style={{ display: "inline-block", width: "20px", height: "2px", background: "#C9A84C", borderRadius: "2px", verticalAlign: "middle" }} />
+                        جاهز لرفع مستوى مشروعك؟
                     </span>
                 </motion.div>
 
@@ -128,7 +130,7 @@ export default function FinalCTA() {
                             boxShadow: "0 10px 40px rgba(201,168,76,0.35)",
                         }}
                     >
-                        اطلب تصميمك الآن ✦
+                        اطلب تصميمك الآن <ArrowLeft size={18} style={{ display: "inline-block", verticalAlign: "middle" }} />
                     </motion.button>
 
                     {/* Ghost CTA */}
@@ -169,7 +171,7 @@ export default function FinalCTA() {
                             className="flex items-center gap-2"
                             style={{ color: "#555", fontSize: "0.85rem" }}
                         >
-                            <span style={{ color: "#C9A84C", fontWeight: 700 }}>✓</span>
+                            <Check size={15} color="#C9A84C" strokeWidth={2.5} />
                             {item.text}
                         </span>
                     ))}

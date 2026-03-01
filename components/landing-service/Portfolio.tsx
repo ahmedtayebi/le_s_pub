@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 
 /* ─────────────────────────────────────────────
    Portfolio Data
@@ -189,9 +190,13 @@ function PortfolioCard({ item }: { item: typeof portfolios[0] }) {
                             fontSize: "0.9rem",
                             fontFamily: "'Cairo', sans-serif",
                             background: "rgba(201,168,76,0.1)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px"
                         }}
                     >
-                        عرض المشروع ←
+                        <ExternalLink size={16} />
+                        عرض المشروع
                     </motion.div>
                 </div>
             </div>
@@ -215,7 +220,9 @@ function PortfolioCard({ item }: { item: typeof portfolios[0] }) {
                         {item.category}
                     </p>
                 </div>
-                <div style={{ color: "#C9A84C", fontSize: "1.2rem" }}>←</div>
+                <div style={{ color: "#C9A84C", display: "flex", alignItems: "center" }}>
+                    <ArrowLeft size={18} color="#C9A84C" />
+                </div>
             </div>
         </motion.div>
     );
@@ -253,7 +260,17 @@ export default function Portfolio() {
                             textTransform: "uppercase",
                         }}
                     >
+                        <span style={{
+                            display: 'inline-block',
+                            width: '20px',
+                            height: '2px',
+                            background: '#C9A84C',
+                            borderRadius: '2px',
+                            marginLeft: '8px',
+                            verticalAlign: 'middle'
+                        }} />
                         أعمالنا تتحدث عنا
+
                     </motion.p>
 
                     <motion.h2

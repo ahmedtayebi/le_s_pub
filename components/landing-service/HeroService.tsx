@@ -1,16 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Check, Palette, Smartphone, Clock } from "lucide-react";
 
 // ─── Floating Badge ──────────────────────────────────────────────────────────
 
 function FloatingBadge({
-    emoji,
+    icon,
     text,
     delay,
     style,
 }: {
-    emoji: string;
+    icon: React.ReactNode;
     text: string;
     delay: number;
     style: React.CSSProperties;
@@ -33,10 +34,13 @@ function FloatingBadge({
                 boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
                 whiteSpace: "nowrap",
                 zIndex: 10,
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
                 ...style,
             }}
         >
-            {emoji} {text}
+            {icon} {text}
         </motion.div>
     );
 }
@@ -58,19 +62,19 @@ function BrowserMockup() {
             >
                 {/* Floating badges */}
                 <FloatingBadge
-                    emoji="⚡"
+                    icon={<Palette size={14} color="#C9A84C" />}
                     text="تصميم عصري"
                     delay={0}
                     style={{ top: -16, right: -30 }}
                 />
                 <FloatingBadge
-                    emoji="📱"
+                    icon={<Smartphone size={14} color="#C9A84C" />}
                     text="متجاوب 100%"
                     delay={0.5}
                     style={{ bottom: 30, left: -36 }}
                 />
                 <FloatingBadge
-                    emoji="🚀"
+                    icon={<Clock size={14} color="#C9A84C" />}
                     text="تسليم خلال 72h"
                     delay={1}
                     style={{ top: "45%", right: -50 }}
@@ -416,7 +420,7 @@ export default function HeroService() {
                                     gap: 6,
                                 }}
                             >
-                                <span style={{ color: "#C9A84C" }}>✦</span> {item}
+                                <Check size={14} color="#C9A84C" strokeWidth={2.5} /> {item}
                             </span>
                         ))}
                     </motion.div>
@@ -454,7 +458,7 @@ export default function HeroService() {
                                     "0 8px 30px rgba(201,168,76,0.3)";
                             }}
                         >
-                            اطلب تصميمك الآن ✦
+                            اطلب تصميمك الآن
                         </motion.button>
 
                         <motion.button
@@ -483,7 +487,7 @@ export default function HeroService() {
                                 btn.style.color = "#fff";
                             }}
                         >
-                            لماذا تحتاج Landing Page؟ ↓
+                            لماذا تحتاج Landing Page؟
                         </motion.button>
                     </motion.div>
                 </div>

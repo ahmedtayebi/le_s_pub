@@ -8,6 +8,21 @@ import ServiceOrderForm from "@/components/landing-service/ServiceOrderForm";
 import FinalCTA from "@/components/landing-service/FinalCTA";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import {
+    XCircle,
+    CheckCircle2,
+    TrendingDown,
+    Users,
+    Layout,
+    TrendingUp,
+    PhoneCall,
+    Palette,
+    Smartphone,
+    Zap,
+    Link2,
+    FileUp,
+    Headphones,
+} from "lucide-react";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // INLINE SECTIONS — Problem/Solution, Features, HowItWorks, Portfolio,
@@ -66,14 +81,14 @@ function SectionHeading({
 
 function ProblemSolution() {
     const problems = [
-        { emoji: "😩", text: "ما عندكش موقع واضح لعرض خدماتك" },
-        { emoji: "📉", text: "عملاؤك ما يلقاوكش بسهولة أونلاين" },
-        { emoji: "😕", text: "السوشيال ميديا وحدها ما تكفيش" },
+        { icon: <TrendingDown size={18} color="#ef4444" />, text: "ما عندكش موقع واضح لعرض خدماتك" },
+        { icon: <Users size={18} color="#ef4444" />, text: "عملاؤك ما يلقاوكش بسهولة أونلاين" },
+        { icon: <Layout size={18} color="#ef4444" />, text: "السوشيال ميديا وحدها ما تكفيش" },
     ];
     const solutions = [
-        { emoji: "✅", text: "صفحة هبوط احترافية على اسم براندك" },
-        { emoji: "📲", text: "عميلك يلقاك ويطلب مباشرة" },
-        { emoji: "🚀", text: "حضور رقمي يرفع مبيعاتك" },
+        { icon: <CheckCircle2 size={18} color={GOLD} />, text: "صفحة هبوط احترافية على اسم براندك" },
+        { icon: <PhoneCall size={18} color={GOLD} />, text: "عميلك يلقاك ويطلب مباشرة" },
+        { icon: <TrendingUp size={18} color={GOLD} />, text: "حضور رقمي يرفع مبيعاتك" },
     ];
 
     return (
@@ -113,12 +128,29 @@ function ProblemSolution() {
                         }}
                     >
                         <h3 style={{ color: "#ff6b6b", fontSize: "1.15rem", fontWeight: 800, marginBottom: 20 }}>
-                            ❌ المشكلة
+                            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                                <XCircle size={22} color="#ef4444" />
+                                المشكلة
+                            </span>
                         </h3>
                         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                             {problems.map((p, i) => (
                                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                    <span style={{ fontSize: "1.3rem" }}>{p.emoji}</span>
+                                    <span
+                                        style={{
+                                            width: 34,
+                                            height: 34,
+                                            borderRadius: "50%",
+                                            background: "rgba(239,68,68,0.1)",
+                                            border: "1px solid rgba(239,68,68,0.2)",
+                                            display: "inline-flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            flexShrink: 0,
+                                        }}
+                                    >
+                                        {p.icon}
+                                    </span>
                                     <span style={{ color: "#aaa", fontSize: "0.95rem" }}>{p.text}</span>
                                 </div>
                             ))}
@@ -139,12 +171,26 @@ function ProblemSolution() {
                         }}
                     >
                         <h3 style={{ color: GOLD, fontSize: "1.15rem", fontWeight: 800, marginBottom: 20 }}>
-                            ✨ الحل مع Le S Publicité
+                            الحل مع Le S Publicité
                         </h3>
                         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                             {solutions.map((s, i) => (
                                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                    <span style={{ fontSize: "1.3rem" }}>{s.emoji}</span>
+                                    <span
+                                        style={{
+                                            width: 34,
+                                            height: 34,
+                                            borderRadius: "50%",
+                                            background: "rgba(201,168,76,0.1)",
+                                            border: "1px solid rgba(201,168,76,0.2)",
+                                            display: "inline-flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            flexShrink: 0,
+                                        }}
+                                    >
+                                        {s.icon}
+                                    </span>
                                     <span style={{ color: "#ccc", fontSize: "0.95rem" }}>{s.text}</span>
                                 </div>
                             ))}
@@ -167,32 +213,32 @@ function ProblemSolution() {
 function Features() {
     const features = [
         {
-            icon: "🎨",
+            icon: <Palette size={24} color={GOLD} />,
             title: "تصميم فريد",
             desc: "تصميم مخصص يعكس هوية علامتك — مش قالب جاهز",
         },
         {
-            icon: "📱",
+            icon: <Smartphone size={24} color={GOLD} />,
             title: "متجاوب مع الموبايل",
             desc: "صفحتك تظهر ممتازة على كل الأجهزة بدون استثناء",
         },
         {
-            icon: "⚡",
+            icon: <Zap size={24} color={GOLD} />,
             title: "سرعة تحميل عالية",
             desc: "أداء سريع لضمان أفضل تجربة لزوار صفحتك",
         },
         {
-            icon: "🔗",
+            icon: <Link2 size={24} color={GOLD} />,
             title: "ربط السوشيال ميديا",
             desc: "نربط صفحتك بكل حساباتك لتكون مرجعك الرقمي الأول",
         },
         {
-            icon: "📊",
+            icon: <FileUp size={24} color={GOLD} />,
             title: "نموذج طلب مدمج",
             desc: "يقدر عميلك يطلب مباشرة من الصفحة — بدون تعقيدات",
         },
         {
-            icon: "🛡️",
+            icon: <Headphones size={24} color={GOLD} />,
             title: "دعم فني مستمر",
             desc: "بعد التسليم نبقى معاك لأي تعديل أو تحديث تحتاجه",
         },
@@ -249,7 +295,6 @@ function Features() {
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    fontSize: "1.5rem",
                                     marginBottom: 18,
                                 }}
                             >

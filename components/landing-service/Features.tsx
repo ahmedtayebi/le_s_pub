@@ -2,42 +2,50 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import {
+    Palette,
+    Smartphone,
+    Zap,
+    Link2,
+    FileUp,
+    Headphones
+} from 'lucide-react';
 
-const features = [
+const featureData = [
     {
-        icon: "🎨",
-        title: "تصميم عصري ومتجاوب",
-        desc: "يعمل بشكل مثالي على الهاتف والكمبيوتر",
+        title: "تصميم فريد",
+        desc: "نصمم لك واجهة عصرية تعكس فخامة علامتك التجارية وتجذب العملاء من النظرة الأولى",
+        icon: <Palette size={26} color="#C9A84C" />,
         gradient: "from-purple-500/10 to-transparent"
     },
     {
-        icon: "📋",
-        title: "نموذج طلب ذكي",
-        desc: "يجمع البيانات والملفات مباشرة لـ Google Sheet",
+        title: "متجاوب مع الموبايل",
+        desc: "صفحتك ستعمل ببراعة على جميع الأجهزة، الهاتف، التابلت، والكمبيوتر، بدون أي مشاكل",
+        icon: <Smartphone size={26} color="#C9A84C" />,
         gradient: "from-[#C9A84C]/10 to-transparent"
     },
     {
-        icon: "⚡",
-        title: "سرعة تحميل ممتازة",
-        desc: "Next.js يضمن أداءً خارقاً وتجربة مستخدم سلسة",
+        title: "سرعة تحميل عالية",
+        desc: "استخدام تقنيات Next.js يضمن سرعة تحميل خارقة لتقليل احتمالية خروج الزبائن من الصفحة",
+        icon: <Zap size={26} color="#C9A84C" />,
         gradient: "from-yellow-500/10 to-transparent"
     },
     {
-        icon: "🔗",
-        title: "ربط Google Sheet",
-        desc: "كل طلب يصل فورياً لجدولك مع جميع التفاصيل",
+        title: "ربط السوشيال ميديا",
+        desc: "توجيه العملاء بسهولة من وإلى حساباتك في إنستغرام، فيسبوك، واتساب لبناء علاقة قوية",
+        icon: <Link2 size={26} color="#C9A84C" />,
         gradient: "from-green-500/10 to-transparent"
     },
     {
-        icon: "🖼️",
-        title: "رفع الملفات مدمج",
-        desc: "الزبون يرفع لوغوه مباشرة — يُحفظ على Cloudinary",
+        title: "نموذج طلب مدمج",
+        desc: "نظام طلبات ذكي يسمح لعملاءك بإرسال بياناتهم وملفاتهم مباشرة لتصلك في جدول منظم",
+        icon: <FileUp size={26} color="#C9A84C" />,
         gradient: "from-blue-500/10 to-transparent"
     },
     {
-        icon: "🛡️",
-        title: "دعم مستمر بعد التسليم",
-        desc: "أي تعديل أو مشكلة — نحن هنا دائماً",
+        title: "دعم فني مستمر",
+        desc: "فريقنا معك دائماً لأي تحديث أو تعديل تطلبه، نضمن لك استمرارية عمل صفحتك بأفضل أداء",
+        icon: <Headphones size={26} color="#C9A84C" />,
         gradient: "from-red-500/10 to-transparent"
     }
 ];
@@ -58,8 +66,17 @@ export default function Features() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="text-[#C9A84C] text-[13px] md:text-sm uppercase font-bold mb-4"
-                        style={{ letterSpacing: "2px" }}
+                        style={{ letterSpacing: "2px", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
+                        <span style={{
+                            display: 'inline-block',
+                            width: '20px',
+                            height: '2px',
+                            background: '#C9A84C',
+                            borderRadius: '2px',
+                            marginLeft: '8px',
+                            verticalAlign: 'middle'
+                        }} />
                         ماذا تحصل عليه؟
                     </motion.p>
                     <motion.h2
@@ -82,7 +99,7 @@ export default function Features() {
 
                 {/* Features Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {features.map((feature, i) => (
+                    {featureData.map((feature, i) => (
                         <motion.div
                             key={i}
                             initial={{
@@ -109,7 +126,16 @@ export default function Features() {
                             <div className={`absolute top-0 right-0 w-[120px] h-[120px] rounded-full bg-gradient-to-br ${feature.gradient} opacity-60 blur-[40px] pointer-events-none transition-opacity duration-500 group-hover:opacity-100`} />
 
                             {/* Icon Wrapper */}
-                            <div className="relative z-10 w-[52px] h-[52px] rounded-[14px] bg-[rgba(201,168,76,0.1)] border border-[rgba(201,168,76,0.2)] flex items-center justify-center text-[1.5rem] mb-[16px]">
+                            <div style={{
+                                width: '56px', height: '56px',
+                                background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))',
+                                border: '1px solid rgba(201,168,76,0.25)',
+                                borderRadius: '16px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: '20px'
+                            }}>
                                 {feature.icon}
                             </div>
 

@@ -5,6 +5,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+    CheckCircle2,
+    PenTool,
+    Upload,
+    Send,
+    Instagram,
+    Facebook,
+    X,
+    Check
+} from "lucide-react";
 
 /* ─────────────────────────────────────────────
    Constants
@@ -130,7 +140,7 @@ function SuccessModal({ onClose }: { onClose: () => void }) {
                         />
                     </svg>
                 </div>
-                <h3 className="text-2xl font-black text-white mb-2">تم إرسال طلبك بنجاح! 🎉</h3>
+                <h3 className="text-2xl font-black text-white mb-2">تم إرسال طلبك بنجاح!</h3>
                 <p className="text-[#888] text-sm mb-6 leading-relaxed">
                     سنتواصل معك خلال 24 ساعة بعرض مخصص لبراندك.
                 </p>
@@ -301,8 +311,24 @@ export default function ServiceOrderForm() {
                         <motion.p
                             initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }} transition={{ duration: 0.4 }}
-                            style={{ color: "#C9A84C", fontWeight: 700, fontSize: "0.85rem", marginBottom: "12px" }}
+                            style={{
+                                color: "#C9A84C",
+                                fontWeight: 700,
+                                fontSize: "0.85rem",
+                                marginBottom: "12px",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "8px"
+                            }}
                         >
+                            <span style={{
+                                display: 'inline-block',
+                                width: '20px',
+                                height: '2px',
+                                background: '#C9A84C',
+                                borderRadius: '2px',
+                                verticalAlign: 'middle'
+                            }} />
                             ابدأ مشروعك اليوم
                         </motion.p>
                         <motion.h2
@@ -418,9 +444,7 @@ export default function ServiceOrderForm() {
                                 <div>
                                     <label className="block text-sm font-bold text-white/80 mb-2">
                                         <span className="inline-flex items-center gap-2">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                                            </svg>
+                                            <Instagram size={16} color="#C9A84C" />
                                             رابط الإنستغرام
                                         </span>
                                     </label>
@@ -436,9 +460,7 @@ export default function ServiceOrderForm() {
                                 <div>
                                     <label className="block text-sm font-bold text-white/80 mb-2">
                                         <span className="inline-flex items-center gap-2">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                                            </svg>
+                                            <Facebook size={16} color="#C9A84C" />
                                             رابط الفيسبوك
                                         </span>
                                     </label>
@@ -460,8 +482,8 @@ export default function ServiceOrderForm() {
                                 </label>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {[
-                                        { value: "yes" as const, icon: "✅", title: "نعم", sub: "لدي لوغو جاهز" },
-                                        { value: "no" as const, icon: "🎨", title: "لا، أحتاج تصميم", sub: "سنساعدك في التصميم" },
+                                        { value: "yes" as const, icon: <CheckCircle2 size={20} color="#C9A84C" />, title: "نعم", sub: "لدي لوغو جاهز" },
+                                        { value: "no" as const, icon: <PenTool size={20} color="#C9A84C" />, title: "لا، أحتاج تصميم", sub: "سنساعدك في التصميم" },
                                     ].map((opt) => (
                                         <label
                                             key={opt.value}
@@ -482,7 +504,7 @@ export default function ServiceOrderForm() {
                                                 {...register("hasLogo")}
                                                 className="sr-only"
                                             />
-                                            <span style={{ fontSize: "1.4rem" }}>{opt.icon}</span>
+                                            <span style={{ marginBottom: "8px" }}>{opt.icon}</span>
                                             <span className="text-white font-bold text-sm">{opt.title}</span>
                                             <span className="text-[#666] text-xs">{opt.sub}</span>
                                         </label>
@@ -526,9 +548,7 @@ export default function ServiceOrderForm() {
                                                 onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#C9A84C"; (e.currentTarget as HTMLButtonElement).style.color = "#C9A84C"; }}
                                                 onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.3)"; (e.currentTarget as HTMLButtonElement).style.color = "#666"; }}
                                             >
-                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
-                                                </svg>
+                                                <Upload size={32} color="#555" strokeWidth={1.5} />
                                                 اسحب الملف هنا أو انقر للرفع
                                                 <span style={{ fontSize: "0.75rem", color: "#555" }}>حد أقصى 5MB</span>
                                             </button>
@@ -556,9 +576,9 @@ export default function ServiceOrderForm() {
                                                     type="button"
                                                     onClick={clearFile}
                                                     className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
-                                                    style={{ backgroundColor: "rgba(239,68,68,0.1)", color: "#ef4444", border: "none", fontSize: "1.1rem", fontWeight: 700 }}
+                                                    style={{ backgroundColor: "rgba(239,68,68,0.1)", color: "#ef4444", border: "none" }}
                                                 >
-                                                    ×
+                                                    <X size={16} strokeWidth={3} />
                                                 </button>
                                             </div>
                                         )}
@@ -605,7 +625,7 @@ export default function ServiceOrderForm() {
                                     (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
                                 }}
                             >
-                                {isLoading ? <><Spinner /> جاري الإرسال...</> : "إرسال الطلب ✦"}
+                                {isLoading ? <><Spinner /> جاري الإرسال...</> : <>إرسال الطلب <Send size={18} /></>}
                             </motion.button>
                         </form>
                     </motion.div>
