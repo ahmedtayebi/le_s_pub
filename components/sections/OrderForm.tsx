@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOrder } from '@/context/OrderContext'
@@ -24,6 +24,9 @@ const wilayas = [
     "55-توقرت", "56-جانت", "57-المغير", "58-المنيعة",
 ];
 
+const CLOUDINARY_CLOUD_NAME = "dwdgchpwh";
+const CLOUDINARY_UPLOAD_PRESET = "les_publicite";
+
 /* ─────────────────────────────────────────────
    Types
    ───────────────────────────────────────────── */
@@ -37,6 +40,7 @@ interface FormData {
     quantity: number;
     hasDesign: string;
     notes: string;
+    designImage?: FileList | File[];
 }
 
 /* ─────────────────────────────────────────────
@@ -86,18 +90,28 @@ function SuccessModal({ onClose }: { onClose: () => void }) {
     const [countdown, setCountdown] = useState(5);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setCountdown((prev) => {
-                if (prev <= 1) {
-                    clearInterval(timer);
-                    onClose();
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-        return () => clearInterval(timer);
+        let timer: ReturnType<typeof setTimeout>;
+
+        const startTimer = () => {
+            timer = setTimeout(() => {
+                onClose();
+            }, 5000);
+        };
+
+        const rafId = requestAnimationFrame(startTimer);
+
+        return () => {
+            cancelAnimationFrame(rafId);
+            clearTimeout(timer);
+        };
     }, [onClose]);
+
+    useEffect(() => {
+        const countdownTimer = setInterval(() => {
+            setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+        }, 1000);
+        return () => clearInterval(countdownTimer);
+    }, []);
 
     return (
         <motion.div
@@ -233,23 +247,102 @@ export default function OrderForm() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const fileRef = useRef<HTMLInputElement>(null);
+    const designImageField = register("designImage");
 
-    const onSubmit = (data: FormData) => {
-        setIsLoading(true);
-        // Simulate async submission
-        setTimeout(() => {
-            setIsLoading(false);
-            setShowSuccess(true);
-            console.log("Order submitted:", { ...data, file: selectedFile?.name });
-        }, 1500);
+    const uploadToCloudinary = async (file: File): Promise<string> => {
+        try {
+            console.log("=== Cloudinary Debug ===");
+            console.log("Cloud Name:", CLOUDINARY_CLOUD_NAME);
+            console.log("Preset:", CLOUDINARY_UPLOAD_PRESET);
+            console.log("File name:", file.name);
+            console.log("File size:", file.size);
+            console.log("File type:", file.type);
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+            const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+            console.log("Uploading to:", url);
+
+            const res = await fetch(url, {
+                method: "POST",
+                body: formData,
+            });
+
+            console.log("Response status:", res.status);
+            console.log("Response ok:", res.ok);
+
+            const data = await res.json();
+            console.log("Full response:", JSON.stringify(data, null, 2));
+
+            if (data.error) {
+                console.error("Cloudinary error message:", data.error.message);
+                return "";
+            }
+
+            if (data.secure_url) {
+                console.log("✅ Success URL:", data.secure_url);
+                return data.secure_url;
+            }
+
+            return "";
+        } catch (err) {
+            console.error("Upload exception:", err);
+            return "";
+        }
     };
 
-    const handleCloseSuccess = () => {
+    const onSubmit = async (formData: FormData) => {
+        const GOOGLE_SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbxT_husU5wNUe5hfLOQyv-q3CTx3cL0Co7EX5SbWzJTjC3Mi5JpMAX7CBCeokOXo_7vkA/exec";
+
+        setIsLoading(true);
+        try {
+            let designImageUrl = "";
+            const fileInput = formData.designImage;
+            const file = fileInput instanceof FileList
+                ? fileInput[0]
+                : fileInput?.[0] ?? null;
+            const finalFile = file instanceof File ? file : selectedFile;
+
+            if (finalFile instanceof File) {
+                designImageUrl = await uploadToCloudinary(finalFile);
+                console.log("Image URL to send:", designImageUrl);
+            }
+
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    fullName: formData.fullName,
+                    phone: formData.phone,
+                    wilaya: formData.wilaya,
+                    bagType: formData.bagType,
+                    size: formData.size,
+                    quantity: formData.quantity,
+                    hasDesign: formData.hasDesign,
+                    notes: formData.notes,
+                    designImageUrl: designImageUrl,
+                }),
+            });
+
+            setShowSuccess(true);
+            reset();
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleCloseSuccess = useCallback(() => {
         setShowSuccess(false);
         reset();
         setSelectedFile(null);
         setPreview(null);
-    };
+    }, [reset]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -259,6 +352,7 @@ export default function OrderForm() {
             return;
         }
         setSelectedFile(file);
+        setValue("designImage", e.target.files as FileList);
         const reader = new FileReader();
         reader.onload = (ev) => setPreview(ev.target?.result as string);
         reader.readAsDataURL(file);
@@ -267,6 +361,7 @@ export default function OrderForm() {
     const clearFile = () => {
         setSelectedFile(null);
         setPreview(null);
+        setValue("designImage", undefined);
         if (fileRef.current) fileRef.current.value = "";
     };
 
@@ -676,10 +771,18 @@ export default function OrderForm() {
 
                             {/* Hidden file input */}
                             <input
-                                ref={fileRef}
+                                name={designImageField.name}
+                                ref={(el) => {
+                                    designImageField.ref(el);
+                                    fileRef.current = el;
+                                }}
                                 type="file"
                                 accept="image/*"
-                                onChange={handleFileChange}
+                                onBlur={designImageField.onBlur}
+                                onChange={(e) => {
+                                    designImageField.onChange(e);
+                                    handleFileChange(e);
+                                }}
                                 className="hidden"
                             />
 
