@@ -3,42 +3,55 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 
-type SectionId = "products" | "specs" | "order-form";
+type SectionId = string;
 
 interface NavItem {
   id: SectionId;
   label: string;
 }
 
-const navItems: NavItem[] = [
+const mainNavItems: NavItem[] = [
   { id: "products", label: "أنواع الأكياس" },
   { id: "specs", label: "الأسعار" },
   { id: "order-form", label: "اطلب عرض سعر" },
 ];
 
+const landingNavItems: NavItem[] = [
+  { id: "problem-solution", label: "المشكلة" },
+  { id: "features", label: "المميزات" },
+  { id: "how-it-works", label: "كيف يعمل" },
+  { id: "portfolio", label: "أعمالنا" },
+];
+
 export default function Navbar() {
+  const pathname = usePathname();
+  const isLandingService = pathname === "/landing-service";
+  const navItems = isLandingService ? landingNavItems : mainNavItems;
+  const ctaTarget = "order-form";
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<SectionId>("products");
+  const [activeSection, setActiveSection] = useState<SectionId>("");
 
   const navStateStyle = useMemo(
     () =>
       isScrolled
         ? {
-            backgroundColor: "rgba(10,10,10,0.95)",
-            boxShadow: "0 4px 30px rgba(0,0,0,0.3)",
-            borderBottom: "1px solid rgba(201,168,76,0.2)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-          }
+          backgroundColor: "rgba(10,10,10,0.95)",
+          boxShadow: "0 4px 30px rgba(0,0,0,0.3)",
+          borderBottom: "1px solid rgba(201,168,76,0.2)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+        }
         : {
-            backgroundColor: "rgba(10,10,10,0)",
-            boxShadow: "0 0 0 rgba(0,0,0,0)",
-            borderBottom: "1px solid rgba(201,168,76,0)",
-            backdropFilter: "blur(0px)",
-            WebkitBackdropFilter: "blur(0px)",
-          },
+          backgroundColor: "rgba(10,10,10,0)",
+          boxShadow: "0 0 0 rgba(0,0,0,0)",
+          borderBottom: "1px solid rgba(201,168,76,0)",
+          backdropFilter: "blur(0px)",
+          WebkitBackdropFilter: "blur(0px)",
+        },
     [isScrolled],
   );
 
@@ -138,7 +151,7 @@ export default function Navbar() {
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => scrollToSection("order-form")}
+            onClick={() => scrollToSection(ctaTarget)}
             className="hidden md:inline-flex items-center justify-center cursor-pointer border-0 rounded-[10px] px-6 py-2.5 text-black font-bold"
             style={{
               background: "linear-gradient(135deg, #C9A84C, #F0C040)",
@@ -209,7 +222,7 @@ export default function Navbar() {
               <div className="absolute bottom-8 left-6 right-6">
                 <button
                   type="button"
-                  onClick={() => scrollToSection("order-form")}
+                  onClick={() => scrollToSection(ctaTarget)}
                   className="w-full border-0 rounded-[10px] px-6 py-3 text-black font-bold"
                   style={{
                     background: "linear-gradient(135deg, #C9A84C, #F0C040)",

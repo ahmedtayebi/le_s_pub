@@ -173,6 +173,7 @@ function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
 export default function HowItWorks() {
     return (
         <section
+            id="how-it-works"
             dir="rtl"
             style={{
                 background: "linear-gradient(180deg, #0a0a0a 0%, #111111 100%)",
