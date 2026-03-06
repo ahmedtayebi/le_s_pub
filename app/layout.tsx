@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { OrderProvider } from '@/context/OrderContext'
+import { CartProvider } from '@/context/CartContext'
+import CartDrawer from '@/components/ui/CartDrawer'
 
 // export const metadata: Metadata = {
 //   title: "Le_S_Pub  ",
@@ -67,9 +68,10 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body>
-        <OrderProvider>
+        <CartProvider>
           <main>{children}</main>
-        </OrderProvider>
+          <CartDrawer />
+        </CartProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
