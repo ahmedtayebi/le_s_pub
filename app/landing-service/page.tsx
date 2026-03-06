@@ -246,6 +246,7 @@ function Features() {
 
     return (
         <section
+            id="features"
             dir="rtl"
             style={{
                 padding: "100px 24px",
@@ -380,7 +381,9 @@ export default function LandingServicePage() {
     return (
         <>
             <Navbar />
-            <HeroService />
+            <div id="hero">
+                <HeroService />
+            </div>
             <ProblemSolution />
             <Features />
             <HowItWorks />

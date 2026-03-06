@@ -11,10 +11,12 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 const portfolios = [
     {
         id: 1,
-        brandName: "Café Lumière",
-        category: "مقهى فاخر",
+        brandName: "Luxors",
+        category: "بيع الروائح",
         colors: ["#2D1B69", "#11998e"],
         primaryColor: "#11998e",
+        image: "/p1.png",
+        link: "https://luxoradz.netlify.app/",
     },
     {
         id: 2,
@@ -22,6 +24,8 @@ const portfolios = [
         category: "شركة تقنية",
         colors: ["#0f0c29", "#302b63"],
         primaryColor: "#5a54c9",
+        image: "",
+        link: "",
     },
     {
         id: 3,
@@ -29,6 +33,8 @@ const portfolios = [
         category: "مجوهرات",
         colors: ["#1a1a2e", "#C9A84C"],
         primaryColor: "#C9A84C",
+        image: "",
+        link: "",
     },
 ];
 
@@ -143,7 +149,7 @@ function MockScreen({ colors, primaryColor }: { colors: string[]; primaryColor: 
 function PortfolioCard({ item }: { item: typeof portfolios[0] }) {
     const [hovered, setHovered] = useState(false);
 
-    return (
+    const card = (
         <motion.div
             whileHover={{ y: -8, boxShadow: "0 24px 48px rgba(0,0,0,0.4)" }}
             transition={{ duration: 0.3, ease: "easeOut" }}
@@ -153,52 +159,63 @@ function PortfolioCard({ item }: { item: typeof portfolios[0] }) {
                 borderRadius: "20px",
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.08)",
-                cursor: "pointer",
+                cursor: item.link ? "pointer" : "default",
                 position: "relative",
                 minWidth: "280px",
                 backgroundColor: "#0d0d0d",
                 flexShrink: 0,
             }}
         >
-            {/* Mock screenshot area */}
+            {/* Screenshot area */}
             <div style={{ height: "280px", position: "relative", overflow: "hidden" }}>
-                <MockScreen colors={item.colors} primaryColor={item.primaryColor} />
+                {item.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                        src={item.image}
+                        alt={item.brandName}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
+                ) : (
+                    <MockScreen colors={item.colors} primaryColor={item.primaryColor} />
+                )}
 
                 {/* Hover overlay */}
-                <div
-                    style={{
-                        position: "absolute",
-                        inset: 0,
-                        backgroundColor: "rgba(0,0,0,0.65)",
-                        opacity: hovered ? 1 : 0,
-                        transition: "opacity 0.3s ease",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <motion.div
-                        initial={false}
-                        animate={{ scale: hovered ? 1 : 0.85, opacity: hovered ? 1 : 0 }}
-                        transition={{ duration: 0.25 }}
+                {item.link && (
+                    <div
                         style={{
-                            border: "1.5px solid #C9A84C",
-                            color: "#fff",
-                            padding: "10px 24px",
-                            borderRadius: "30px",
-                            fontWeight: 700,
-                            fontSize: "0.9rem",
-                            fontFamily: "'Cairo', sans-serif",
-                            background: "rgba(201,168,76,0.1)",
+                            position: "absolute",
+                            inset: 0,
+                            backgroundColor: "rgba(0,0,0,0.65)",
+                            opacity: hovered ? 1 : 0,
+                            transition: "opacity 0.3s ease",
                             display: "flex",
                             alignItems: "center",
-                            gap: "8px"
+                            justifyContent: "center",
                         }}
                     >
-                        <ExternalLink size={16} />
-                        عرض المشروع
-                    </motion.div>
-                </div>
+                        <motion.div
+                            initial={false}
+                            animate={{ scale: hovered ? 1 : 0.85, opacity: hovered ? 1 : 0 }}
+                            transition={{ duration: 0.25 }}
+                            style={{
+                                border: "1.5px solid #C9A84C",
+                                color: "#fff",
+                                padding: "10px 24px",
+                                borderRadius: "30px",
+                                fontWeight: 700,
+                                fontSize: "0.9rem",
+                                fontFamily: "'Cairo', sans-serif",
+                                background: "rgba(201,168,76,0.1)",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px"
+                            }}
+                        >
+                            <ExternalLink size={16} />
+                            عرض المشروع
+                        </motion.div>
+                    </div>
+                )}
             </div>
 
             {/* Info bar */}
@@ -226,6 +243,16 @@ function PortfolioCard({ item }: { item: typeof portfolios[0] }) {
             </div>
         </motion.div>
     );
+
+    if (item.link) {
+        return (
+            <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
+                {card}
+            </a>
+        );
+    }
+
+    return card;
 }
 
 /* ─────────────────────────────────────────────
@@ -235,6 +262,7 @@ function PortfolioCard({ item }: { item: typeof portfolios[0] }) {
 export default function Portfolio() {
     return (
         <section
+            id="portfolio"
             dir="rtl"
             style={{
                 backgroundColor: "#000",
