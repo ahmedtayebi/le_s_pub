@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { useOrder } from '@/context/OrderContext'
+import { useCart } from '@/context/CartContext'
 
 /* ─────────────────────────────────────────────
    Algerian Wilayas (58)
@@ -35,9 +35,6 @@ interface FormData {
     fullName: string;
     phone: string;
     wilaya: string;
-    bagType: string;
-    size: string;
-    quantity: number;
     hasDesign: string;
     notes: string;
     designImage?: FileList | File[];
@@ -49,7 +46,9 @@ interface FormData {
 
 const baseInputStyle: React.CSSProperties = {
     width: "100%",
-    border: "1.5px solid #E0E0E0",
+    borderWidth: "1.5px",
+    borderStyle: "solid",
+    borderColor: "#E0E0E0",
     borderRadius: "12px",
     padding: "14px 18px",
     fontFamily: "'Cairo', sans-serif",
@@ -179,7 +178,7 @@ function SuccessModal({ onClose }: { onClose: () => void }) {
                         color: "#000",
                         padding: "12px 32px",
                         borderRadius: "12px",
-                        border: "none",
+                        borderWidth: 0,
                     }}
                 >
                     إغلاق ({countdown})
@@ -198,12 +197,103 @@ function Spinner() {
         <span
             className="inline-block w-5 h-5 rounded-full"
             style={{
-                border: "3px solid rgba(0,0,0,0.15)",
+                borderWidth: "3px",
+                borderStyle: "solid",
+                borderColor: "rgba(0,0,0,0.15)",
                 borderTopColor: "#000",
                 animation: "spin 0.6s linear infinite",
             }}
         />
     );
+}
+
+/* ─────────────────────────────────────────────
+   Cart Summary Banner
+   ───────────────────────────────────────────── */
+
+function CartBanner() {
+    const { items, totalAmount } = useCart()
+
+    if (items.length === 0) {
+        return (
+            <div style={{
+                background: "rgba(239,68,68,0.06)",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: "rgba(239,68,68,0.15)",
+                borderRadius: "12px",
+                padding: "14px 18px",
+                marginBottom: "28px",
+                color: "#ef4444",
+                fontWeight: 600,
+                fontSize: "0.9rem",
+            }}>
+                ⚠️ سلتك فارغة — أضف منتجات أولاً
+            </div>
+        )
+    }
+
+    return (
+        <div style={{
+            background: "rgba(201,168,76,0.06)",
+            borderWidth: "1px",
+            borderStyle: "solid",
+            borderColor: "rgba(201,168,76,0.15)",
+            borderRadius: "16px",
+            padding: "20px",
+            marginBottom: "28px",
+        }}>
+            {/* Header row */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                <span style={{ color: "#C9A84C", fontWeight: 700, fontSize: "1rem" }}>منتجاتك المختارة</span>
+                <span style={{ color: "#888", fontSize: "0.85rem" }}>{items.length} منتج</span>
+            </div>
+
+            {/* Divider */}
+            <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 12 }} />
+
+            {/* Items list */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {items.map(item => (
+                    <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+                        {/* Right: name + pills */}
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                            <span style={{ color: "#988e1eff", fontWeight: 600, fontSize: "0.9rem" }}>{item.productName}</span>
+                            <div style={{ display: "flex", gap: 6 }}>
+                                <span style={{
+                                    background: "rgba(255,255,255,0.06)",
+                                    borderRadius: 20,
+                                    padding: "2px 10px",
+                                    color: "#888",
+                                    fontSize: "0.8rem",
+                                }}>{item.size}</span>
+                                <span style={{
+                                    background: "rgba(255,255,255,0.06)",
+                                    borderRadius: 20,
+                                    padding: "2px 10px",
+                                    color: "#888",
+                                    fontSize: "0.8rem",
+                                }}>×{item.quantity} قطعة</span>
+                            </div>
+                        </div>
+                        {/* Left: price */}
+                        <span style={{ color: "#C9A84C", fontWeight: 700, fontSize: "0.9rem" }}>
+                            {item.totalPrice.toLocaleString()} دج
+                        </span>
+                    </div>
+                ))}
+            </div>
+
+            {/* Bottom divider + total */}
+            <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "14px 0" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ color: "#888", fontSize: "0.9rem" }}>المجموع التقديري:</span>
+                <span style={{ color: "#C9A84C", fontWeight: 700, fontSize: "1.1rem" }}>
+                    {totalAmount.toLocaleString()} دج
+                </span>
+            </div>
+        </div>
+    )
 }
 
 /* ─────────────────────────────────────────────
@@ -215,32 +305,10 @@ export default function OrderForm() {
         register,
         handleSubmit,
         reset,
-        setValue,
         formState: { errors },
     } = useForm<FormData>({ mode: "onTouched" });
 
-    const { orderSelection } = useOrder();
-    const [isDismissed, setIsDismissed] = useState(false);
-
-    useEffect(() => {
-        if (orderSelection.product) {
-            setIsDismissed(false);
-            const productMap: Record<string, string> = {
-                'SAC SHOPPING': 'sac-shopping',
-                'SAC 5KG': 'sac-5kg',
-                'SAC 5Kg': 'sac-5kg',
-                'SAC PAPIER RIGIDE': 'sac-rigide',
-                'SAC PAPIER CRAFT': 'sac-craft',
-                'SAC DE LIVRAISON': 'sac-livraison'
-            }
-            const productKey = Object.keys(productMap).find(k =>
-                orderSelection.product.toUpperCase().includes(k.toUpperCase())
-            )
-            if (productKey) setValue('bagType', productMap[productKey]);
-            if (orderSelection.size) setValue('size', orderSelection.size);
-            if (orderSelection.quantity) setValue('quantity', Number(orderSelection.quantity));
-        }
-    }, [orderSelection, setValue]);
+    const { items, totalAmount, clearCart } = useCart();
 
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -295,7 +363,7 @@ export default function OrderForm() {
 
     const onSubmit = async (formData: FormData) => {
         const GOOGLE_SCRIPT_URL =
-            "https://script.google.com/macros/s/AKfycbxT_husU5wNUe5hfLOQyv-q3CTx3cL0Co7EX5SbWzJTjC3Mi5JpMAX7CBCeokOXo_7vkA/exec";
+            "https://script.google.com/macros/s/AKfycbwUMC9UB-4Ya8fzRqMHkzdnLesRf878LtIXrqZm2nBgr1zeovqJn0VGIsJAeUWWOCT8/exec";
 
         setIsLoading(true);
         try {
@@ -311,6 +379,17 @@ export default function OrderForm() {
                 console.log("Image URL to send:", designImageUrl);
             }
 
+            const cartSummary = items.map(item =>
+                `${item.productName} | ${item.size} | كمية ${item.quantity}`
+            ).join('\n')
+
+            const cartJSON = JSON.stringify(items.map(item => ({
+                p: item.productName,
+                s: item.size,
+                q: item.quantity,
+                price: item.totalPrice
+            })))
+
             await fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
@@ -319,17 +398,18 @@ export default function OrderForm() {
                     fullName: formData.fullName,
                     phone: formData.phone,
                     wilaya: formData.wilaya,
-                    bagType: formData.bagType,
-                    size: formData.size,
-                    quantity: formData.quantity,
                     hasDesign: formData.hasDesign,
                     notes: formData.notes,
                     designImageUrl: designImageUrl,
+                    cartSummary: cartSummary,
+                    cartJSON: cartJSON,
+                    totalAmount: totalAmount.toString(),
                 }),
             });
 
             setShowSuccess(true);
             reset();
+            clearCart();
         } catch (error) {
             console.error("Error:", error);
         } finally {
@@ -352,7 +432,6 @@ export default function OrderForm() {
             return;
         }
         setSelectedFile(file);
-        setValue("designImage", e.target.files as FileList);
         const reader = new FileReader();
         reader.onload = (ev) => setPreview(ev.target?.result as string);
         reader.readAsDataURL(file);
@@ -361,9 +440,10 @@ export default function OrderForm() {
     const clearFile = () => {
         setSelectedFile(null);
         setPreview(null);
-        setValue("designImage", undefined);
         if (fileRef.current) fileRef.current.value = "";
     };
+
+    const cartEmpty = items.length === 0;
 
     return (
         <>
@@ -429,52 +509,8 @@ export default function OrderForm() {
                         </motion.p>
                     </div>
 
-                    {/* ── Auto-fill Banner ── */}
-                    <AnimatePresence>
-                        {orderSelection.product && !isDismissed && (
-                            <motion.div
-                                initial={{ opacity: 0, y: -10, height: 0 }}
-                                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                                exit={{ opacity: 0, y: -10, height: 0 }}
-                                className="overflow-hidden"
-                            >
-                                <div
-                                    className="flex items-center justify-between gap-4 mb-6"
-                                    style={{
-                                        background: "rgba(201,168,76,0.08)",
-                                        border: "1px solid rgba(201,168,76,0.3)",
-                                        borderRadius: "12px",
-                                        padding: "12px 16px",
-                                    }}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="text-[#C9A84C]">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p style={{ color: "#C9A84C", fontWeight: 700, fontSize: "0.9rem" }}>
-                                                تم تحديد طلبك تلقائياً:
-                                            </p>
-                                            <p style={{ color: "#888", fontSize: "0.82rem" }}>
-                                                {orderSelection.product} — مقاس {orderSelection.size} — كمية {orderSelection.quantity}+
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsDismissed(true)}
-                                        className="text-[#C9A84C] hover:text-[#A8832A] transition-colors cursor-pointer"
-                                    >
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    {/* ── Cart Summary Banner ── */}
+                    <CartBanner />
 
                     {/* ── Form ── */}
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
@@ -564,132 +600,7 @@ export default function OrderForm() {
                             )}
                         </div>
 
-                        {/* Row 3: Bag Type + Size + Quantity */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            {/* Bag Type */}
-                            <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <label className="block text-sm font-bold text-[#444]">
-                                        نوع الكيس <span className="text-[#E53E3E]">*</span>
-                                    </label>
-                                    {orderSelection.product && (
-                                        <motion.span
-                                            initial={{ opacity: 0, x: 10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            className="text-[0.72rem] font-bold text-[#C9A84C]"
-                                        >
-                                            ✓ تم التحديد تلقائياً
-                                        </motion.span>
-                                    )}
-                                </div>
-                                <select
-                                    {...register("bagType", { required: "يرجى اختيار نوع الكيس" })}
-                                    style={{
-                                        ...(errors.bagType ? errorInputStyle : baseInputStyle),
-                                        borderColor: orderSelection.product ? "#C9A84C" : (errors.bagType ? "#E53E3E" : "#E0E0E0"),
-                                        backgroundColor: orderSelection.product ? "rgba(201,168,76,0.04)" : (errors.bagType ? "rgba(229,62,62,0.03)" : "#fff"),
-                                        appearance: "none" as const,
-                                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "left 16px center",
-                                    }}
-                                    defaultValue=""
-                                    {...inputFocusHandlers(!!errors.bagType)}
-                                >
-                                    <option value="" disabled>
-                                        -- اختر نوع الكيس --
-                                    </option>
-                                    <option value="sac-shopping">🛍 Sac Shopping — كيس التسوق</option>
-                                    <option value="sac-5kg">💪 Sac 5Kg — كيس 5 كغ</option>
-                                    <option value="sac-rigide">🎁 Sac Papier Rigide — كيس ريقيد</option>
-                                    <option value="sac-craft">📦 Sac Papier Craft — كيس كرافت</option>
-                                    <option value="sac-livraison">🚚 Sac de Livraison — كيس التوصيل</option>
-                                </select>
-                                {errors.bagType && (
-                                    <p className="text-[#E53E3E] text-xs mt-1 font-semibold">
-                                        {errors.bagType.message}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Quantity */}
-                            <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <label className="block text-sm font-bold text-[#444]">
-                                        الكمية المطلوبة <span className="text-[#E53E3E]">*</span>
-                                    </label>
-                                    {orderSelection.product && (
-                                        <motion.span
-                                            initial={{ opacity: 0, x: 10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            className="text-[0.72rem] font-bold text-[#C9A84C]"
-                                        >
-                                            ✓ تم التحديد تلقائياً
-                                        </motion.span>
-                                    )}
-                                </div>
-                                <input
-                                    {...register("quantity", {
-                                        required: "هذا الحقل مطلوب",
-                                        min: { value: 200, message: "الحد الأدنى 200 قطعة" },
-                                        valueAsNumber: true,
-                                    })}
-                                    type="number"
-                                    min={200}
-                                    placeholder="200 كحد أدنى"
-                                    style={{
-                                        ...(errors.quantity ? errorInputStyle : baseInputStyle),
-                                        borderColor: orderSelection.product ? "#C9A84C" : (errors.quantity ? "#E53E3E" : "#E0E0E0"),
-                                        backgroundColor: orderSelection.product ? "rgba(201,168,76,0.04)" : (errors.quantity ? "rgba(229,62,62,0.03)" : "#fff"),
-                                    }}
-                                    {...inputFocusHandlers(!!errors.quantity)}
-                                />
-                                {errors.quantity && (
-                                    <p className="text-[#E53E3E] text-xs mt-1 font-semibold">
-                                        {errors.quantity.message}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Size field */}
-                        <div>
-                            <div className="flex justify-between items-center mb-2">
-                                <label className="block text-sm font-bold text-[#444]">
-                                    المقاس المطلوب <span className="text-[#E53E3E]">*</span>
-                                </label>
-                                {orderSelection.product && (
-                                    <motion.span
-                                        initial={{ opacity: 0, x: 10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        className="text-[0.72rem] font-bold text-[#C9A84C]"
-                                    >
-                                        ✓ تم التحديد تلقائياً
-                                    </motion.span>
-                                )}
-                            </div>
-                            <input
-                                {...register("size", { required: "يرجى تحديد المقاس المطلوب" })}
-                                type="text"
-                                placeholder="مثال: 40/30 Cm"
-                                style={{
-                                    ...(errors.size ? errorInputStyle : baseInputStyle),
-                                    borderColor: orderSelection.product ? "#C9A84C" : (errors.size ? "#E53E3E" : "#E0E0E0"),
-                                    backgroundColor: orderSelection.product ? "rgba(201,168,76,0.04)" : (errors.size ? "rgba(229,62,62,0.03)" : "#fff"),
-                                }}
-                                {...inputFocusHandlers(!!errors.size)}
-                            />
-                            {errors.size && (
-                                <p className="text-[#E53E3E] text-xs mt-1 font-semibold">
-                                    {errors.size.message}
-                                </p>
-                            )}
-                            <p className="text-xs mt-1.5 font-semibold" style={{ color: "#C9A84C" }}>
-                                راجع جدول الأسعار أعلاه لاختيار المقاس المناسب
-                            </p>
-                        </div>
-
-                        {/* Row 4: Has Design — Toggle Cards */}
+                        {/* Row 3: Has Design — Toggle Cards */}
                         <div>
                             <label className="block text-sm font-bold text-[#444] mb-3">
                                 هل لديك تصميم جاهز؟ <span className="text-[#E53E3E]">*</span>
@@ -704,7 +615,9 @@ export default function OrderForm() {
                                         className="relative flex items-center gap-3 cursor-pointer rounded-xl transition-all duration-200"
                                         style={{
                                             padding: "14px 18px",
-                                            border: "1.5px solid #E0E0E0",
+                                            borderWidth: "1.5px",
+                                            borderStyle: "solid",
+                                            borderColor: "#E0E0E0",
                                             background: "#fff",
                                         }}
                                     >
@@ -720,7 +633,7 @@ export default function OrderForm() {
                                         {/* Gold border overlay on check */}
                                         <span
                                             className="absolute inset-0 rounded-xl pointer-events-none transition-all duration-200 peer-checked:border-[#C9A84C] peer-checked:bg-[rgba(201,168,76,0.04)]"
-                                            style={{ border: "1.5px solid transparent" }}
+                                            style={{ borderWidth: "1.5px", borderStyle: "solid", borderColor: "transparent" }}
                                         />
                                         {/* Override parent border when checked */}
                                         <style>{`
@@ -739,7 +652,7 @@ export default function OrderForm() {
                             )}
                         </div>
 
-                        {/* Row 5: Notes (optional) */}
+                        {/* Row 4: Notes (optional) */}
                         <div>
                             <label className="block text-sm font-bold text-[#444] mb-2">
                                 ملاحظات إضافية
@@ -763,7 +676,7 @@ export default function OrderForm() {
                             />
                         </div>
 
-                        {/* Row 6: File Upload (optional) */}
+                        {/* Row 5: File Upload (optional) */}
                         <div>
                             <label className="block text-sm font-bold text-[#444] mb-2">
                                 رفع صورة التصميم (اختياري)
@@ -792,7 +705,9 @@ export default function OrderForm() {
                                     onClick={() => fileRef.current?.click()}
                                     className="w-full cursor-pointer flex items-center justify-center gap-2 transition-all duration-200"
                                     style={{
-                                        border: "2px dashed #D0D0D0",
+                                        borderWidth: "2px",
+                                        borderStyle: "dashed",
+                                        borderColor: "#D0D0D0",
                                         borderRadius: "12px",
                                         padding: "24px 18px",
                                         background: "#FAFAF7",
@@ -819,7 +734,9 @@ export default function OrderForm() {
                                 <div
                                     className="flex items-center gap-4 relative"
                                     style={{
-                                        border: "1.5px solid #C9A84C",
+                                        borderWidth: "1.5px",
+                                        borderStyle: "solid",
+                                        borderColor: "#C9A84C",
                                         borderRadius: "12px",
                                         padding: "12px 16px",
                                         background: "rgba(201,168,76,0.04)",
@@ -830,7 +747,9 @@ export default function OrderForm() {
                                         <div
                                             className="flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden"
                                             style={{
-                                                border: "1px solid #E0E0E0",
+                                                borderWidth: "1px",
+                                                borderStyle: "solid",
+                                                borderColor: "#E0E0E0",
                                                 backgroundImage: `url(${preview})`,
                                                 backgroundSize: "cover",
                                                 backgroundPosition: "center",
@@ -853,7 +772,7 @@ export default function OrderForm() {
                                         style={{
                                             background: "rgba(229,62,62,0.08)",
                                             color: "#E53E3E",
-                                            border: "none",
+                                            borderWidth: 0,
                                             fontSize: "1.1rem",
                                             fontWeight: 700,
                                         }}
@@ -873,21 +792,22 @@ export default function OrderForm() {
                         {/* Submit Button */}
                         <motion.button
                             type="submit"
-                            disabled={isLoading}
-                            whileHover={isLoading ? {} : { scale: 1.02 }}
-                            whileTap={isLoading ? {} : { scale: 0.97 }}
+                            disabled={isLoading || cartEmpty}
+                            whileHover={isLoading || cartEmpty ? {} : { scale: 1.02 }}
+                            whileTap={isLoading || cartEmpty ? {} : { scale: 0.97 }}
                             className="w-full font-extrabold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2"
                             style={{
                                 background: "linear-gradient(135deg, #C9A84C, #F0C040)",
                                 color: "#000",
                                 padding: "18px",
                                 borderRadius: "14px",
-                                border: "none",
+                                borderWidth: 0,
                                 fontSize: "1.1rem",
-                                opacity: isLoading ? 0.8 : 1,
+                                opacity: isLoading || cartEmpty ? 0.4 : 1,
+                                cursor: cartEmpty ? "not-allowed" : "pointer",
                             }}
                             onMouseEnter={(e) => {
-                                if (!isLoading) {
+                                if (!isLoading && !cartEmpty) {
                                     (e.currentTarget as HTMLButtonElement).style.background =
                                         "linear-gradient(135deg, #A8832A, #C9A84C)";
                                     (e.currentTarget as HTMLButtonElement).style.boxShadow =
@@ -903,35 +823,6 @@ export default function OrderForm() {
                             {isLoading ? <Spinner /> : "إرسال الطلب ✦"}
                         </motion.button>
 
-                        {/* WhatsApp alternative */}
-                        {/* <div className="text-center">
-                            <p className="text-sm text-[#999] mb-2">أو تواصل معنا مباشرة</p>
-                            <a
-                                href="https://wa.me/213777640477"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 text-sm font-bold transition-all duration-200"
-                                style={{
-                                    color: "#25D366",
-                                    padding: "10px 20px",
-                                    borderRadius: "10px",
-                                    border: "1.5px solid #25D366",
-                                }}
-                                onMouseEnter={(e) => {
-                                    (e.currentTarget as HTMLAnchorElement).style.background = "#25D366";
-                                    (e.currentTarget as HTMLAnchorElement).style.color = "#fff";
-                                }}
-                                onMouseLeave={(e) => {
-                                    (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-                                    (e.currentTarget as HTMLAnchorElement).style.color = "#25D366";
-                                }}
-                            >
-                                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor">
-                                    <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16.004c0 3.5 1.129 6.744 3.047 9.379L1.054 31.25l6.093-1.955a15.93 15.93 0 008.857 2.68C24.826 31.975 32 24.799 32 16.004 32 7.176 24.826 0 16.004 0zm9.338 22.617c-.393 1.107-1.941 2.025-3.174 2.293-.846.18-1.951.324-5.672-1.219-4.762-1.975-7.826-6.813-8.063-7.127-.229-.314-1.916-2.551-1.916-4.865 0-2.314 1.213-3.451 1.643-3.924.393-.43 1.022-.615 1.617-.615.195 0 .371.01.527.018.43.018.645.043.928.717.352.84 1.213 2.955 1.32 3.172.107.217.213.502.072.803-.131.305-.262.494-.48.766-.217.271-.42.479-.637.77-.197.26-.42.537-.174.957.246.412 1.096 1.807 2.354 2.928 1.615 1.439 2.975 1.885 3.398 2.094.424.209.67.174.916-.107.254-.281 1.08-1.256 1.369-1.689.281-.434.57-.357.957-.215.393.143 2.494 1.178 2.92 1.393.43.215.713.322.82.502.105.18.105 1.037-.289 2.145z" />
-                                </svg>
-                                Le S Publicité — واتساب
-                            </a>
-                        </div> */}
                     </form>
                 </div>
             </section>
