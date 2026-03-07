@@ -109,7 +109,7 @@ export default function HeroSection() {
     return (
         <section
             id="hero"
-            className="relative flex items-center justify-center overflow-hidden px-4 pt-24 pb-20"
+            className="relative flex items-center justify-center overflow-hidden px-4 pt-10 pb-20"
             style={{
                 background: "linear-gradient(180deg, #000000 0%, #1C1C1C 100%)",
             }}
@@ -130,7 +130,7 @@ export default function HeroSection() {
             <div
                 className="relative z-10 w-full max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 md:gap-10 lg:gap-6 items-center"
                 style={{
-                    padding: "clamp(32px, 5vw, 60px)",
+                    padding: "clamp(25px, 5vw, 60px)",
                     borderRadius: "48px",
                     background: "rgba(255,255,255,0.03)",
                     backdropFilter: "blur(10px)",
@@ -261,7 +261,7 @@ export default function HeroSection() {
                         style={{
                             position: "relative",
                             width: "100%",
-                            height: "500px",
+                            height: "280px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
