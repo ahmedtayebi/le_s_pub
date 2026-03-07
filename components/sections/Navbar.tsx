@@ -4,8 +4,6 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ShoppingCart } from "lucide-react";
-import { useCart } from "@/context/CartContext";
 
 type SectionId = string;
 
@@ -36,8 +34,6 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SectionId>("");
-
-  const { totalItems, setIsCartOpen, isCartOpen } = useCart();
 
   const navStateStyle = useMemo(
     () =>
@@ -113,11 +109,6 @@ export default function Navbar() {
         animate={navStateStyle}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="fixed top-0 left-0 right-0 z-[10000]"
-        style={{
-          opacity: isCartOpen ? 0 : 1,
-          pointerEvents: isCartOpen ? 'none' : 'auto',
-          transition: 'opacity 0.2s ease',
-        }}
       >
         <div className="mx-auto max-w-[1280px] h-[60px] md:h-[72px] px-4 md:px-8 flex items-center justify-between gap-4">
           <motion.button
@@ -157,55 +148,8 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Desktop right: Cart + CTA */}
+          {/* Desktop: CTA */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Cart icon button */}
-            <motion.button
-              type="button"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              whileHover={{ scale: 1.1 }}
-              onClick={() => setIsCartOpen(true)}
-              className="cursor-pointer relative flex items-center justify-center"
-              style={{
-                width: 42,
-                height: 42,
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: "10px",
-              }}
-              aria-label="فتح السلة"
-            >
-              <ShoppingCart size={22} color="white" />
-              <AnimatePresence>
-                {totalItems > 0 && (
-                  <motion.span
-                    key="cart-badge"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    style={{
-                      position: "absolute",
-                      top: -8,
-                      right: -8,
-                      width: 20,
-                      height: 20,
-                      background: "#C9A84C",
-                      color: "#000",
-                      borderRadius: "50%",
-                      fontSize: "0.7rem",
-                      fontWeight: 900,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {totalItems > 99 ? "99+" : totalItems}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
@@ -225,54 +169,8 @@ export default function Navbar() {
             </motion.button>
           </div>
 
-          {/* Mobile: cart icon + hamburger */}
-          <div className="md:hidden flex items-center gap-2">
-            <motion.button
-              type="button"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              whileHover={{ scale: 1.1 }}
-              onClick={() => setIsCartOpen(true)}
-              className="cursor-pointer relative flex items-center justify-center"
-              style={{
-                width: 38,
-                height: 38,
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: "9px",
-              }}
-              aria-label="فتح السلة"
-            >
-              <ShoppingCart size={19} color="white" />
-              <AnimatePresence>
-                {totalItems > 0 && (
-                  <motion.span
-                    key="cart-badge-mob"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    style={{
-                      position: "absolute",
-                      top: -7,
-                      right: -7,
-                      width: 18,
-                      height: 18,
-                      background: "#C9A84C",
-                      color: "#000",
-                      borderRadius: "50%",
-                      fontSize: "0.65rem",
-                      fontWeight: 900,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {totalItems > 99 ? "99+" : totalItems}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
+          {/* Mobile: hamburger */}
+          <div className="md:hidden flex items-center">
             <button
               type="button"
               onClick={() => setIsMenuOpen((prev) => !prev)}
