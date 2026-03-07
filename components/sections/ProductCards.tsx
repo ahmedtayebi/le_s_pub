@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useCart } from '@/context/CartContext'
 
 /* ─────────────────────────────────────────────
    Product Data
@@ -151,26 +150,10 @@ function ProductCard({
 }) {
     const [selectedSize, setSelectedSize] = useState(product.sizes[0].label);
     const [selectedQty, setSelectedQty] = useState(product.quantities[0]);
-    const [added, setAdded] = useState(false);
-    const { addItem } = useCart()
 
     const sizeObj = product.sizes.find((s) => s.label === selectedSize)!;
     const currentPrice = sizeObj.prices[selectedQty] ?? 0;
     const totalPrice = currentPrice * selectedQty;
-
-    const handleAddToCart = () => {
-        const id = `${product.titleFr}__${selectedSize}`
-        addItem({
-            id,
-            productName: product.titleAr,
-            size: selectedSize,
-            quantity: selectedQty,
-            unitPrice: currentPrice,
-            totalPrice,
-        })
-        setAdded(true)
-        setTimeout(() => setAdded(false), 2000)
-    }
 
     return (
         <motion.div
@@ -431,71 +414,35 @@ function ProductCard({
                 </div>
 
                 {/* ── CTA Button ── */}
-                <AnimatePresence mode="wait">
-                    {added ? (
-                        <motion.div
-                            key="added"
-                            initial={{ opacity: 0, scale: 0.92 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.92 }}
-                            transition={{ duration: 0.18 }}
-                            className="w-full font-bold flex items-center justify-center gap-2"
-                            style={{
-                                background: "rgba(34,197,94,0.1)",
-                                color: "#16a34a",
-                                padding: "14px 0",
-                                borderRadius: "12px",
-                                border: "1.5px solid rgba(34,197,94,0.3)",
-                                fontSize: "0.95rem",
-                            }}
-                        >
-                            <span style={{ fontSize: '1.1rem' }}>✓</span>
-                            تمت الإضافة ✓
-                        </motion.div>
-                    ) : (
-                        <motion.button
-                            key="add"
-                            initial={{ opacity: 0, scale: 0.92 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.92 }}
-                            transition={{ duration: 0.18 }}
-                            onClick={handleAddToCart}
-                            className="w-full font-bold cursor-pointer transition-all duration-300"
-                            style={{
-                                background: "#C9A84C",
-                                color: "#000",
-                                padding: "14px 0",
-                                borderRadius: "12px",
-                                border: "none",
-                                fontSize: "0.95rem",
-                            }}
-                            onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.background = "#A8832A";
-                                (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                                    "0 0 25px rgba(201,168,76,0.4)";
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.background = "#C9A84C";
-                                (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
-                                (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
-                            }}
-                            onMouseDown={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.transform = "scale(0.97)";
-                            }}
-                            onMouseUp={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
-                            }}
-                            onTouchStart={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.transform = "scale(0.97)";
-                            }}
-                            onTouchEnd={(e) => {
-                                (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
-                            }}
-                        >
-                            أضف للسلة
-                        </motion.button>
-                    )}
-                </AnimatePresence>
+                <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() =>
+                        document
+                            .getElementById("order-form")
+                            ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }
+                    className="w-full font-bold cursor-pointer transition-all duration-300"
+                    style={{
+                        background: "#C9A84C",
+                        color: "#000",
+                        padding: "14px 0",
+                        borderRadius: "12px",
+                        border: "none",
+                        fontSize: "0.95rem",
+                    }}
+                    onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.background = "#A8832A";
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                            "0 0 25px rgba(201,168,76,0.4)";
+                    }}
+                    onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.background = "#C9A84C";
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                    }}
+                >
+                    اطلب هذا المنتج
+                </motion.button>
 
                 {/* Min quantity note */}
                 <p className="text-center text-[11px] text-[#aaa]">

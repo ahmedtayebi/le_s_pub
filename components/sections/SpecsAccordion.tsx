@@ -5,101 +5,52 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 /* ─────────────────────────────────────────────
-   Specs Data
+   Products Data
    ───────────────────────────────────────────── */
 
-interface PricingRow {
-    size: string;
-    prices: number[];
-}
-
-interface SpecItem {
-    id: number;
-    titleFr: string;
-    titleAr: string;
+interface ProductItem {
+    id: string;
+    name: string;
+    arabicName: string;
+    icon: string;
     image: string;
-    minOrder: string;
-    customization: string;
-    quantities: string[];
-    pricing: PricingRow[];
 }
 
-const specs: SpecItem[] = [
+const products: ProductItem[] = [
     {
-        id: 1,
-        titleFr: "SAC SHOPPING",
-        titleAr: "كيس التسوق",
-        image: "/sac_shopping-removebg-preview.png",
-        minOrder: "200 قطعة",
-        customization: "شعار + اسم المحل",
-        quantities: ["+200", "+500", "+1000", "+5000"],
-        pricing: [
-            { size: "30/20 Cm", prices: [24, 18, 16, 15] },
-            { size: "40/30 Cm", prices: [28, 23, 21, 24] },
-            { size: "50/40 Cm", prices: [34, 28, 26, 19] },
-            { size: "50/60 Cm", prices: [39, 33, 31, 30] },
-        ],
+        id: "sac-shopping",
+        name: "SAC SHOPPING",
+        arabicName: "كيس التسوق",
+        icon: "/sac_shopping-removebg-preview.png",
+        image: "/sacshop.jpg",
     },
     {
-        id: 2,
-        titleFr: "SAC 5Kg",
-        titleAr: "كيس 5 كغ",
-        image: "/sac_5kg-removebg-preview.png",
-        minOrder: "200 قطعة",
-        customization: "شعار + اسم المحل",
-        quantities: ["+200", "+500", "+1000", "+5000"],
-        pricing: [
-            { size: "30/20 Cm", prices: [24, 18, 16, 15] },
-            { size: "40/30 Cm", prices: [28, 23, 21, 24] },
-            { size: "50/40 Cm", prices: [34, 28, 26, 19] },
-            { size: "50/60 Cm", prices: [39, 33, 31, 30] },
-        ],
+        id: "sac-papier",
+        name: "SAC PAPIER CRAFT",
+        arabicName: "كيس ورق كرافت",
+        icon: "/sac_craft-removebg-preview.png",
+        image: "/papcraft.jpg",
     },
     {
-        id: 3,
-        titleFr: "SAC PAPIER RIGIDE",
-        titleAr: "كيس ريقيد",
-        image: "/sac_riged-removebg-preview.png",
-        minOrder: "200 قطعة",
-        customization: "شعار + ألوان العلامة التجارية",
-        quantities: ["+200", "+500", "+1000"],
-        pricing: [
-            { size: "14/18 Cm", prices: [60, 56, 64] },
-            { size: "17/24 Cm", prices: [68, 64, 69] },
-            { size: "35/25 Cm", prices: [80, 76, 109] },
-            { size: "32/45 Cm", prices: [85, 81, 171] },
-            { size: "35/50 Cm", prices: [90, 85, 178] },
-        ],
+        id: "sac-5kg",
+        name: "SAC 5KG",
+        arabicName: "كيس 5 كغ",
+        icon: "/sac_5kg-removebg-preview.png",
+        image: "/sac5kg.jpg",
     },
     {
-        id: 4,
-        titleFr: "SAC PAPIER CRAFT",
-        titleAr: "كيس كرافت",
-        image: "/sac_craft-removebg-preview.png",
-        minOrder: "200 قطعة",
-        customization: "شعار + اسم العلامة التجارية",
-        quantities: ["+200", "+500", "+1000"],
-        pricing: [
-            { size: "20/25 Cm", prices: [60, 56, 56] },
-            { size: "28/24 Cm", prices: [68, 64, 64] },
-            { size: "28/33 Cm", prices: [80, 76, 76] },
-            { size: "45/33 Cm", prices: [85, 81, 81] },
-            { size: "45/44 Cm", prices: [90, 85, 82] },
-        ],
+        id: "sac-rigide",
+        name: "SAC RIGIDE",
+        arabicName: "كيس ريقيد",
+        icon: "/sac_riged-removebg-preview.png",
+        image: "/sacpap.jpg",
     },
     {
-        id: 5,
-        titleFr: "SAC DE LIVRAISON",
-        titleAr: "كيس التوصيل",
-        image: "/sac_delivration-removebg-preview.png",
-        minOrder: "200 قطعة",
-        customization: "شعار + اسم الشركة + رقم التواصل",
-        quantities: ["+200", "+500", "+1000"],
-        pricing: [
-            { size: "20/30 Cm", prices: [35, 22, 20] },
-            { size: "30/40 Cm", prices: [40, 28, 26] },
-            { size: "40/50 Cm", prices: [45, 34, 31] }
-        ]
+        id: "sac-epack",
+        name: "E-PACK",
+        arabicName: "إي باك",
+        icon: "/sac_delivration-removebg-preview.png",
+        image: "/sacdel.jpg",
     },
 ];
 
@@ -130,175 +81,16 @@ function ChevronDown({ open }: { open: boolean }) {
 }
 
 /* ─────────────────────────────────────────────
-   Info Pill
-   ───────────────────────────────────────────── */
-
-function InfoPill({ icon, label }: { icon: string; label: string }) {
-    return (
-        <span
-            className="inline-flex items-center gap-2 text-[0.8rem] whitespace-nowrap"
-            style={{
-                background: "#2a2a2a",
-                border: "1px solid #333",
-                borderRadius: "20px",
-                padding: "6px 14px",
-                color: "#fff",
-            }}
-        >
-            <span className="text-base">{icon}</span>
-            {label}
-        </span>
-    );
-}
-
-/* ─────────────────────────────────────────────
-   Pricing Table
-   ───────────────────────────────────────────── */
-
-function PricingTable({
-    item,
-}: {
-    item: SpecItem;
-}) {
-    const lastQtyIdx = item.quantities.length - 1;
-
-    return (
-        <div className="mt-6">
-            {/* Quick Info Bar */}
-            <div className="flex flex-wrap gap-2 mb-6">
-                <InfoPill icon="📦" label={`أدنى كمية: ${item.minOrder}`} />
-            </div>
-
-            {/* Table */}
-            <div className="overflow-x-auto rounded-xl border border-[#333]">
-                <table className="w-full text-center" style={{ borderCollapse: "separate", borderSpacing: 0 }}>
-                    {/* Header */}
-                    <thead>
-                        <tr>
-                            <th
-                                className="text-right px-4 py-3 text-sm font-bold"
-                                style={{ color: "#C9A84C", background: "#1E1E1E" }}
-                            >
-                                المقاس / التايل
-                            </th>
-                            {item.quantities.map((qty, qi) => (
-                                <th
-                                    key={qty}
-                                    className="px-4 py-3 text-sm font-bold"
-                                    style={{
-                                        color: "#C9A84C",
-                                        background:
-                                            qi === lastQtyIdx
-                                                ? "rgba(201,168,76,0.1)"
-                                                : "#1E1E1E",
-                                        borderBottom:
-                                            qi === lastQtyIdx
-                                                ? "2px solid #C9A84C"
-                                                : "none",
-                                    }}
-                                >
-                                    {qty} قطعة
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-
-                    {/* Body */}
-                    <tbody>
-                        {item.pricing.map((row, ri) => {
-                            const minPrice = Math.min(...row.prices);
-
-                            return (
-                                <tr
-                                    key={row.size}
-                                    style={{
-                                        background: ri % 2 === 0 ? "#252525" : "#2a2a2a",
-                                    }}
-                                >
-                                    {/* Size cell */}
-                                    <td className="text-right px-4 py-3">
-                                        <span
-                                            className="inline-block text-sm font-semibold text-white"
-                                            style={{
-                                                border: "1px solid rgba(201,168,76,0.27)",
-                                                background: "rgba(201,168,76,0.08)",
-                                                borderRadius: "8px",
-                                                padding: "4px 12px",
-                                            }}
-                                        >
-                                            {row.size}
-                                        </span>
-                                    </td>
-
-                                    {/* Price cells */}
-                                    {row.prices.map((price, pi) => {
-                                        const isBest = price === minPrice;
-                                        return (
-                                            <td
-                                                key={pi}
-                                                className="px-4 py-3"
-                                                style={{
-                                                    background: isBest
-                                                        ? "rgba(201,168,76,0.15)"
-                                                        : "transparent",
-                                                }}
-                                            >
-                                                <span
-                                                    className="block text-sm"
-                                                    style={{
-                                                        color: isBest ? "#F0C040" : "#fff",
-                                                        fontWeight: isBest ? 900 : 600,
-                                                    }}
-                                                >
-                                                    {price} دج
-                                                </span>
-                                                {isBest && (
-                                                    <span
-                                                        className="block text-[9px] font-bold mt-1"
-                                                        style={{ color: "#C9A84C" }}
-                                                    >
-                                                        الأفضل
-                                                    </span>
-                                                )}
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
-
-            <div
-                style={{
-                    borderTop: "1px solid rgba(201,168,76,0.15)",
-                    background: "rgba(201,168,76,0.04)",
-                    padding: "12px",
-                    textAlign: "center",
-                    color: "#666",
-                    fontSize: "0.8rem",
-                    fontStyle: "italic",
-                    marginTop: "14px",
-                }}
-            >
-                ⬇️ لطلب هذا المنتج — انتقل لنموذج الطلب أسفل الصفحة
-            </div>
-        </div>
-    );
-}
-
-/* ─────────────────────────────────────────────
    Accordion Item
    ───────────────────────────────────────────── */
 
 function AccordionItem({
-    item,
+    product,
     index,
     isOpen,
     onToggle,
 }: {
-    item: SpecItem;
+    product: ProductItem;
     index: number;
     isOpen: boolean;
     onToggle: () => void;
@@ -310,7 +102,7 @@ function AccordionItem({
             viewport={{ once: true }}
             transition={{
                 duration: 0.45,
-                ease: "easeOut" as const,
+                ease: "easeOut",
                 delay: index * 0.08,
             }}
         >
@@ -322,20 +114,6 @@ function AccordionItem({
                         ? "1px solid rgba(201,168,76,0.5)"
                         : "1px solid rgba(201,168,76,0.2)",
                 }}
-                onMouseEnter={(e) => {
-                    if (!isOpen) {
-                        (e.currentTarget as HTMLDivElement).style.borderColor =
-                            "rgba(201,168,76,0.5)";
-                        (e.currentTarget as HTMLDivElement).style.background = "#242424";
-                    }
-                }}
-                onMouseLeave={(e) => {
-                    if (!isOpen) {
-                        (e.currentTarget as HTMLDivElement).style.borderColor =
-                            "rgba(201,168,76,0.2)";
-                        (e.currentTarget as HTMLDivElement).style.background = "#1E1E1E";
-                    }
-                }}
             >
                 {/* Header */}
                 <button
@@ -345,37 +123,42 @@ function AccordionItem({
                         padding: "20px 28px",
                         background: "transparent",
                         border: "none",
+                        outline: "none",
                     }}
                 >
                     <div className="flex items-center gap-4">
+                        {/* Product Thumbnail */}
                         <div
                             style={{
-                                width: "44px",
-                                height: "44px",
-                                position: "relative",
+                                width: "48px",
+                                height: "48px",
+                                borderRadius: "10px",
+                                overflow: "hidden",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                background: "rgba(255,255,255,0.05)",
                                 flexShrink: 0,
                             }}
                         >
-                            <Image
-                                src={item.image}
-                                alt={item.titleFr}
-                                fill
-                                style={{
-                                    objectFit: "contain",
-                                    objectPosition: "center",
-                                    filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.4))",
+                            <img
+                                src={product.icon}
+                                alt=""
+                                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                                onError={(e) => {
+                                    (e.currentTarget as HTMLImageElement).src =
+                                        "https://placehold.co/100x100/1E1E1E/C9A84C?text=P";
                                 }}
                             />
                         </div>
+
                         <div className="flex flex-col items-start gap-1">
                             <span
                                 className="text-[1.1rem] font-bold"
                                 style={{ color: "#C9A84C" }}
                             >
-                                {item.titleFr}
+                                {product.name}
                             </span>
                             <span className="text-[0.9rem] text-white/70">
-                                {item.titleAr}
+                                {product.arabicName}
                             </span>
                         </div>
                     </div>
@@ -396,8 +179,22 @@ function AccordionItem({
                             }}
                             style={{ overflow: "hidden" }}
                         >
-                            <div style={{ padding: "0 28px 24px 28px" }}>
-                                <PricingTable item={item} />
+                            <div style={{ padding: "20px", display: "flex", justifyContent: "center" }}>
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    style={{
+                                        width: "100%",
+                                        maxWidth: "500px",
+                                        borderRadius: "16px",
+                                        boxShadow: "0 8px 40px rgba(0,0,0,0.4)",
+                                        objectFit: "contain",
+                                    }}
+                                    onError={(e) => {
+                                        // Placeholder logic if image fails (since they are placeholders)
+                                        (e.currentTarget as HTMLImageElement).src = "https://placehold.co/500x500/1E1E1E/C9A84C?text=Product+Image";
+                                    }}
+                                />
                             </div>
                         </motion.div>
                     )}
@@ -412,9 +209,9 @@ function AccordionItem({
    ───────────────────────────────────────────── */
 
 export default function SpecsAccordion() {
-    const [activeId, setActiveId] = useState<number | null>(null);
+    const [activeId, setActiveId] = useState<string | null>(null);
 
-    const toggle = (id: number) => {
+    const toggle = (id: string) => {
         setActiveId(activeId === id ? null : id);
     };
 
@@ -424,17 +221,17 @@ export default function SpecsAccordion() {
             className="py-24 px-4"
             style={{ background: "#141414" }}
         >
-            <div className="w-full mx-auto">
+            <div className="w-full mx-auto max-w-[1100px]">
                 {/* ── Section Header ── */}
                 <div className="text-center mb-16">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, ease: "easeOut" as const }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
                         className="text-3xl md:text-4xl font-black text-white mb-3"
                     >
-                        جدول الأسعار التفصيلي
+                        استعرض منتجاتنا
                     </motion.h2>
 
                     {/* Gold underline accent */}
@@ -445,7 +242,7 @@ export default function SpecsAccordion() {
                         transition={{
                             duration: 0.6,
                             delay: 0.2,
-                            ease: "easeOut" as const,
+                            ease: "easeOut",
                         }}
                         className="mx-auto mb-4"
                         style={{
@@ -464,23 +261,23 @@ export default function SpecsAccordion() {
                         transition={{
                             duration: 0.5,
                             delay: 0.3,
-                            ease: "easeOut" as const,
+                            ease: "easeOut",
                         }}
                         className="text-[#888] text-base md:text-lg"
                     >
-                        اضغط على المنتج لعرض جدول الأسعار الكامل
+                        اضغط على المنتج لمشاهدة التفاصيل
                     </motion.p>
                 </div>
 
                 {/* ── Accordion Items ── */}
                 <div className="flex flex-col gap-4">
-                    {specs.map((item, index) => (
+                    {products.map((product, index) => (
                         <AccordionItem
-                            key={item.id}
-                            item={item}
+                            key={product.id}
+                            product={product}
                             index={index}
-                            isOpen={activeId === item.id}
-                            onToggle={() => toggle(item.id)}
+                            isOpen={activeId === product.id}
+                            onToggle={() => toggle(product.id)}
                         />
                     ))}
                 </div>

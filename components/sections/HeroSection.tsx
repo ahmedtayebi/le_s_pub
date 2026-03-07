@@ -109,7 +109,7 @@ export default function HeroSection() {
     return (
         <section
             id="hero"
-            className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 py-16 md:py-0"
+            className="relative flex items-center justify-center overflow-hidden px-4 pt-24 pb-20"
             style={{
                 background: "linear-gradient(180deg, #000000 0%, #1C1C1C 100%)",
             }}
@@ -257,10 +257,10 @@ export default function HeroSection() {
                     whileInView="visible"
                     viewport={{ once: true }}
                 >
-                        <div
-                            style={{
-                                position: "relative",
-                                width: "100%",
+                    <div
+                        style={{
+                            position: "relative",
+                            width: "100%",
                             height: "500px",
                             display: "flex",
                             alignItems: "center",
@@ -400,6 +400,29 @@ export default function HeroSection() {
                         </motion.div> */}
                     </div>
                 </motion.div>
+            </div>
+            {/* ── Embedded bottom wave ── */}
+            <div
+                style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    lineHeight: 0,
+                    zIndex: 20,
+                }}
+            >
+                <svg
+                    viewBox="0 0 1440 120"
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="none"
+                    style={{ display: "block", width: "100%", height: "72px" }}
+                >
+                    <path
+                        fill="#FAFAF7"
+                        d="M0,64 C180,120 360,8 540,32 C720,56 900,136 1080,104 C1260,72 1350,24 1440,40 L1440,120 L0,120 Z"
+                    />
+                </svg>
             </div>
         </section>
     );
