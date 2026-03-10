@@ -7,7 +7,7 @@ import Footer from "@/components/sections/Footer";
 
 import FadeInSection from "@/components/ui/FadeInSection";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import WaveDivider from "@/components/ui/WaveDivider";
+// import WaveDivider from "@/components/ui/WaveDivider";
 
 // export const metadata: Metadata = {
 //   title: "Le_S_Pub | تصميم وطباعة أكياس فاخرة في الجزائر",
@@ -33,13 +33,13 @@ export default function Home() {
         <ProductCards />
       </FadeInSection> */}
 
-      <WaveDivider topColor="#FAFAF7" bottomColor="#141414" flipped />
+      {/* <WaveDivider topColor="#FAFAF7" bottomColor="#141414" flipped />
 
       <FadeInSection direction="up" delay={0}>
         <SpecsAccordion />
       </FadeInSection>
 
-      <WaveDivider topColor="#141414" bottomColor="#080808" />
+      <WaveDivider topColor="#141414" bottomColor="#080808" /> */}
 
 
 
