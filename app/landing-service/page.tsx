@@ -4,7 +4,7 @@ import Navbar from "@/components/sections/Navbar";
 import HeroService from "@/components/landing-service/HeroService";
 import HowItWorks from "@/components/landing-service/HowItWorks";
 import Portfolio from "@/components/landing-service/Portfolio";
-import ServiceOrderForm from "@/components/landing-service/ServiceOrderForm";
+// import ServiceOrderForm from "@/components/landing-service/ServiceOrderForm";
 import FinalCTA from "@/components/landing-service/FinalCTA";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -388,7 +388,7 @@ export default function LandingServicePage() {
             <Features />
             <HowItWorks />
             <Portfolio />
-            <ServiceOrderForm />
+            {/* <ServiceOrderForm /> */}
             <FinalCTA />
             <ServiceFooter />
         </>

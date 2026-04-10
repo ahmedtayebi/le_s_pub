@@ -112,7 +112,7 @@ export default function FinalCTA() {
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
                     {/* Primary CTA */}
-                    <motion.button
+                    {/* <motion.button
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
                         onClick={() =>
@@ -131,7 +131,7 @@ export default function FinalCTA() {
                         }}
                     >
                         اطلب تصميمك الآن <ArrowLeft size={18} style={{ display: "inline-block", verticalAlign: "middle" }} />
-                    </motion.button>
+                    </motion.button> */}
 
                     {/* Ghost CTA */}
                     <motion.button
@@ -142,7 +142,7 @@ export default function FinalCTA() {
                         }
                         className="font-bold cursor-pointer"
                         style={{
-                            background: "transparent",
+                            background: "linear-gradient(135deg, #C9A84C, #F0C040)",
                             color: "#fff",
                             padding: "18px 36px",
                             borderRadius: "16px",
