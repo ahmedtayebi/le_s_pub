@@ -384,10 +384,10 @@ export default function LandingServicePage() {
             <div id="hero">
                 <HeroService />
             </div>
+            <Portfolio />
             <ProblemSolution />
             <Features />
             <HowItWorks />
-            <Portfolio />
             {/* <ServiceOrderForm /> */}
             <FinalCTA />
             <ServiceFooter />

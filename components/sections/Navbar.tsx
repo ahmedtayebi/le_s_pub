@@ -20,9 +20,10 @@ const mainNavItems: NavItem[] = [
 
 const landingNavItems: NavItem[] = [
   { id: "problem-solution", label: "المشكلة" },
+  { id: "portfolio", label: "أعمالنا" },
   { id: "features", label: "المميزات" },
   { id: "how-it-works", label: "كيف يعمل" },
-  { id: "portfolio", label: "أعمالنا" },
+  
 ];
 
 export default function Navbar() {
