@@ -440,7 +440,7 @@ export default function Portfolio() {
         const velocity = Math.abs(dx) / elapsed; // px per ms
         const committed = Math.abs(dx) > 56 || velocity > 0.4;
         if (!committed) return;
-        go(dx > 0 ? -1 : 1);
+        go(dx > 0 ? 1 : -1);
     };
 
     const activeVariants = reducedMotion ? centerVariantsReduced : centerVariants;
