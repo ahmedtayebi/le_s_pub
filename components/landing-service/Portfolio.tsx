@@ -46,6 +46,15 @@ const portfolios: Project[] = [
         link: "https://kella-orpin.vercel.app/",
         tags: ["Healthcare", "Services"],
     },
+    {
+        id: 4,
+        brandName: "Zaki Horse DZ",
+        category: "متجر إلكتروني",
+        accent: "#8B5A2B",
+        image: "/p5.png",
+        link: "https://zakihorse-dz.youcan.store/",
+        tags: ["E-commerce", "Store"],
+    },
 ];
 
 const GOLD = "#C9A84C";
