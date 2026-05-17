@@ -74,7 +74,7 @@ function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
             whileHover={{ y: -6, borderColor: "rgba(201,168,76,0.4)" }}
             style={{
                 flex: 1,
-                backgroundColor: "rgba(255,255,255,0.02)",
+                backgroundColor: "#fff",
                 border: "1px solid rgba(201,168,76,0.15)",
                 borderRadius: "24px",
                 padding: "32px 24px",
@@ -82,6 +82,7 @@ function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
                 position: "relative",
                 cursor: "default",
                 transition: "border-color 0.25s ease",
+                boxShadow: "0 18px 45px rgba(32,26,10,0.06)",
             }}
         >
             {/* Big background step number */}
@@ -141,7 +142,7 @@ function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
             {/* Title */}
             <p
                 style={{
-                    color: "#fff",
+                    color: "#171717",
                     fontWeight: 700,
                     fontSize: "1.1rem",
                     fontFamily: "'Cairo', sans-serif",
@@ -154,7 +155,7 @@ function StepCard({ step, index }: { step: typeof steps[0]; index: number }) {
             {/* Description */}
             <p
                 style={{
-                    color: "#777",
+                    color: "#666257",
                     fontSize: "0.88rem",
                     lineHeight: 1.7,
                     fontFamily: "'Cairo', sans-serif",
@@ -176,7 +177,7 @@ export default function HowItWorks() {
             id="how-it-works"
             dir="rtl"
             style={{
-                background: "linear-gradient(180deg, #0a0a0a 0%, #111111 100%)",
+                background: "linear-gradient(180deg, #f6f1e5 0%, #fbfaf6 100%)",
                 padding: "96px 24px",
                 fontFamily: "'Cairo', sans-serif",
             }}
@@ -219,7 +220,7 @@ export default function HowItWorks() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         style={{
-                            color: "#fff",
+                            color: "#171717",
                             fontWeight: 900,
                             fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
                             marginBottom: "12px",
@@ -250,7 +251,7 @@ export default function HowItWorks() {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        style={{ color: "#666", fontSize: "1rem" }}
+                        style={{ color: "#666257", fontSize: "1rem" }}
                     >
                         من أول رسالة إلى صفحة جاهزة للعمل
                     </motion.p>

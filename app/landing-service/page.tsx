@@ -55,13 +55,13 @@ function SectionHeading({
                 style={{
                     fontSize: "clamp(2rem, 4vw, 3rem)",
                     fontWeight: 900,
-                    color: light ? "#fff" : "#fff",
+                    color: light ? "#171717" : "#171717",
                     margin: "0 0 12px",
                 }}
             >
                 {title}
             </h2>
-            <p style={{ color: "#888", fontSize: "1.05rem", maxWidth: 560, margin: "0 auto" }}>
+            <p style={{ color: "#666257", fontSize: "1.05rem", maxWidth: 560, margin: "0 auto" }}>
                 {subtitle}
             </p>
             <div
@@ -97,7 +97,7 @@ function ProblemSolution() {
             dir="rtl"
             style={{
                 padding: "100px 24px",
-                background: "#000",
+                background: "#fbfaf6",
                 fontFamily: "Cairo, sans-serif",
             }}
         >
@@ -121,10 +121,11 @@ function ProblemSolution() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         style={{
-                            background: "rgba(255,50,50,0.04)",
-                            border: "1px solid rgba(255,50,50,0.15)",
+                            background: "#fff",
+                            border: "1px solid rgba(239,68,68,0.18)",
                             borderRadius: 20,
                             padding: 32,
+                            boxShadow: "0 18px 45px rgba(32,26,10,0.06)",
                         }}
                     >
                         <h3 style={{ color: "#ff6b6b", fontSize: "1.15rem", fontWeight: 800, marginBottom: 20 }}>
@@ -151,7 +152,7 @@ function ProblemSolution() {
                                     >
                                         {p.icon}
                                     </span>
-                                    <span style={{ color: "#aaa", fontSize: "0.95rem" }}>{p.text}</span>
+                                    <span style={{ color: "#4f4a43", fontSize: "0.95rem" }}>{p.text}</span>
                                 </div>
                             ))}
                         </div>
@@ -164,10 +165,11 @@ function ProblemSolution() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                         style={{
-                            background: "rgba(201,168,76,0.04)",
+                            background: "#fff",
                             border: "1px solid rgba(201,168,76,0.2)",
                             borderRadius: 20,
                             padding: 32,
+                            boxShadow: "0 18px 45px rgba(32,26,10,0.06)",
                         }}
                     >
                         <h3 style={{ color: GOLD, fontSize: "1.15rem", fontWeight: 800, marginBottom: 20 }}>
@@ -191,7 +193,7 @@ function ProblemSolution() {
                                     >
                                         {s.icon}
                                     </span>
-                                    <span style={{ color: "#ccc", fontSize: "0.95rem" }}>{s.text}</span>
+                                    <span style={{ color: "#4f4a43", fontSize: "0.95rem" }}>{s.text}</span>
                                 </div>
                             ))}
                         </div>
@@ -250,7 +252,7 @@ function Features() {
             dir="rtl"
             style={{
                 padding: "100px 24px",
-                background: "#0a0a0a",
+                background: "#f6f1e5",
                 fontFamily: "Cairo, sans-serif",
             }}
         >
@@ -279,11 +281,12 @@ function Features() {
                                 y: -4,
                             }}
                             style={{
-                                background: "rgba(255,255,255,0.02)",
-                                border: "1px solid rgba(255,255,255,0.06)",
+                                background: "#fff",
+                                border: "1px solid rgba(201,168,76,0.16)",
                                 borderRadius: 18,
                                 padding: 28,
                                 transition: "border-color 0.3s",
+                                boxShadow: "0 16px 38px rgba(32,26,10,0.06)",
                             }}
                         >
                             <div
@@ -301,10 +304,10 @@ function Features() {
                             >
                                 {f.icon}
                             </div>
-                            <h3 style={{ color: "#fff", fontWeight: 700, fontSize: "1.05rem", marginBottom: 8 }}>
+                            <h3 style={{ color: "#171717", fontWeight: 700, fontSize: "1.05rem", marginBottom: 8 }}>
                                 {f.title}
                             </h3>
-                            <p style={{ color: "#777", fontSize: "0.88rem", lineHeight: 1.7, margin: 0 }}>
+                            <p style={{ color: "#666257", fontSize: "0.88rem", lineHeight: 1.7, margin: 0 }}>
                                 {f.desc}
                             </p>
                         </motion.div>
@@ -346,8 +349,8 @@ function ServiceFooter() {
             dir="rtl"
             style={{
                 padding: "30px 24px",
-                background: "#000",
-                borderTop: "1px solid rgba(255,255,255,0.05)",
+                background: "#fbfaf6",
+                borderTop: "1px solid rgba(201,168,76,0.18)",
                 fontFamily: "Cairo, sans-serif",
                 textAlign: "center",
             }}
@@ -366,7 +369,7 @@ function ServiceFooter() {
             >
                 ← العودة للصفحة الرئيسية
             </button>
-            <p style={{ color: "#444", fontSize: "0.8rem", margin: 0 }}>
+            <p style={{ color: "#777066", fontSize: "0.8rem", margin: 0 }}>
                 © {new Date().getFullYear()} Le S Publicité — جميع الحقوق محفوظة
             </p>
         </footer>

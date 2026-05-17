@@ -20,7 +20,7 @@ export default function FinalCTA() {
             style={{
                 position: "relative",
                 overflow: "hidden",
-                backgroundColor: "#000",
+                backgroundColor: "#fbfaf6",
                 padding: "120px 24px",
                 textAlign: "center",
                 fontFamily: "'Cairo', sans-serif",
@@ -41,7 +41,7 @@ export default function FinalCTA() {
                     position: "absolute",
                     inset: 0,
                     background:
-                        "radial-gradient(ellipse 700px 400px at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 70%)",
+                        "radial-gradient(ellipse 700px 400px at 50% 50%, rgba(201,168,76,0.18) 0%, transparent 70%)",
                     pointerEvents: "none",
                 }}
             />
@@ -76,7 +76,7 @@ export default function FinalCTA() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.15 }}
                     style={{
-                        color: "#fff",
+                        color: "#171717",
                         fontWeight: 900,
                         fontSize: "clamp(2rem, 4.5vw, 3.2rem)",
                         lineHeight: 1.3,
@@ -93,7 +93,7 @@ export default function FinalCTA() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                     style={{
-                        color: "#888",
+                        color: "#666257",
                         fontSize: "1.05rem",
                         lineHeight: 1.8,
                         margin: "0 auto 36px",
@@ -143,11 +143,11 @@ export default function FinalCTA() {
                         className="font-bold cursor-pointer"
                         style={{
                             background: "linear-gradient(135deg, #C9A84C, #F0C040)",
-                            color: "#fff",
+                            color: "#171717",
                             padding: "18px 36px",
                             borderRadius: "16px",
                             fontSize: "1rem",
-                            border: "1.5px solid rgba(255,255,255,0.2)",
+                            border: "1.5px solid rgba(201,168,76,0.3)",
                             fontFamily: "'Cairo', sans-serif",
                             transition: "border-color 0.3s",
                         }}
@@ -169,7 +169,7 @@ export default function FinalCTA() {
                         <span
                             key={i}
                             className="flex items-center gap-2"
-                            style={{ color: "#555", fontSize: "0.85rem" }}
+                            style={{ color: "#666257", fontSize: "0.85rem" }}
                         >
                             <Check size={15} color="#C9A84C" strokeWidth={2.5} />
                             {item.text}

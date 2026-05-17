@@ -158,13 +158,13 @@ function SidePeek({
                 aspectRatio: "4 / 5",
                 borderRadius: 28,
                 overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.06)",
-                background: "#0d0d0d",
+                border: "1px solid rgba(201,168,76,0.18)",
+                background: "#fff",
                 padding: 0,
                 cursor: "pointer",
                 transformStyle: "preserve-3d",
                 transformOrigin: isLeft ? "right center" : "left center",
-                boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
+                boxShadow: "0 24px 60px rgba(32,26,10,0.16)",
                 zIndex: 1,
                 willChange: "transform",
             }}
@@ -247,10 +247,10 @@ function FeaturedCard({ project }: { project: Project }) {
                 borderRadius: 32,
                 overflow: "hidden",
                 textDecoration: "none",
-                background: "#0a0a0a",
+                background: "#fff",
                 border: "1px solid rgba(201,168,76,0.25)",
                 boxShadow:
-                    "0 40px 90px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.02) inset",
+                    "0 36px 80px rgba(32,26,10,0.18), 0 0 0 1px rgba(255,255,255,0.8) inset",
             }}
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -460,7 +460,7 @@ export default function Portfolio() {
             dir="rtl"
             ref={sectionRef}
             style={{
-                backgroundColor: "#000",
+                backgroundColor: "#fffaf0",
                 padding: "96px 24px 104px",
                 fontFamily: "'Cairo', sans-serif",
                 position: "relative",
@@ -477,7 +477,7 @@ export default function Portfolio() {
                     width: 620,
                     height: 620,
                     borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(201,168,76,0.12), transparent 60%)",
+                    background: "radial-gradient(circle, rgba(201,168,76,0.18), transparent 60%)",
                     filter: "blur(40px)",
                     pointerEvents: "none",
                 }}
@@ -520,7 +520,7 @@ export default function Portfolio() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         style={{
-                            color: "#fff",
+                            color: "#171717",
                             fontWeight: 900,
                             fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
                             marginBottom: 12,
@@ -549,7 +549,7 @@ export default function Portfolio() {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        style={{ color: "#666", fontSize: "1rem" }}
+                        style={{ color: "#666257", fontSize: "1rem" }}
                     >
                         كل صفحة مصممة خصيصاً لعلامة تجارية مختلفة
                     </motion.p>
@@ -639,13 +639,13 @@ export default function Portfolio() {
                         <NavButton
                             ariaLabel="المشروع السابق"
                             onClick={() => go(-1)}
-                            icon={<ArrowRight size={20} color="#fff" />}
+                            icon={<ArrowRight size={20} color="#171717" />}
                         />
 
                         <div
                             aria-live="polite"
                             style={{
-                                color: "#888",
+                                color: "#777066",
                                 fontSize: "0.9rem",
                                 fontWeight: 600,
                                 minWidth: 56,
@@ -653,17 +653,17 @@ export default function Portfolio() {
                                 fontVariantNumeric: "tabular-nums",
                             }}
                         >
-                            <span style={{ color: "#fff", fontWeight: 800 }}>
+                            <span style={{ color: "#171717", fontWeight: 800 }}>
                                 {String(active + 1).padStart(2, "0")}
                             </span>
-                            <span style={{ margin: "0 6px", color: "#333" }}>/</span>
+                            <span style={{ margin: "0 6px", color: "#c9b875" }}>/</span>
                             <span>{String(count).padStart(2, "0")}</span>
                         </div>
 
                         <NavButton
                             ariaLabel="المشروع التالي"
                             onClick={() => go(1)}
-                            icon={<ArrowLeft size={20} color="#fff" />}
+                            icon={<ArrowLeft size={20} color="#171717" />}
                         />
                     </div>
 
@@ -686,7 +686,7 @@ export default function Portfolio() {
                                         cursor: "pointer",
                                         background: isActive
                                             ? `linear-gradient(90deg, ${GOLD}, ${GOLD_SOFT})`
-                                            : "rgba(255,255,255,0.18)",
+                                            : "rgba(23,23,23,0.18)",
                                         transition: "width 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 0.3s ease",
                                     }}
                                 />
@@ -735,8 +735,9 @@ function NavButton({
                 width: 48,
                 height: 48,
                 borderRadius: "50%",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.86)",
+                border: "1px solid rgba(201,168,76,0.22)",
+                boxShadow: "0 10px 24px rgba(32,26,10,0.08)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

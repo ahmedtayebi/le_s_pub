@@ -40,14 +40,14 @@ export default function Navbar() {
     () =>
       isScrolled
         ? {
-          backgroundColor: "rgba(10,10,10,0.95)",
-          boxShadow: "0 4px 30px rgba(0,0,0,0.3)",
-          borderBottom: "1px solid rgba(201,168,76,0.2)",
+          backgroundColor: "rgba(255,255,255,0.94)",
+          boxShadow: "0 10px 30px rgba(25,25,25,0.08)",
+          borderBottom: "1px solid rgba(201,168,76,0.22)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
         }
         : {
-          backgroundColor: "rgba(10,10,10,0)",
+          backgroundColor: "rgba(255,255,255,0)",
           boxShadow: "0 0 0 rgba(0,0,0,0)",
           borderBottom: "1px solid rgba(201,168,76,0)",
           backdropFilter: "blur(0px)",
@@ -137,8 +137,8 @@ export default function Navbar() {
                   key={item.id}
                   type="button"
                   onClick={() => scrollToSection(item.id)}
-                  className="relative cursor-pointer rounded-lg px-4 py-2 text-[0.95rem] font-medium text-white transition-all duration-200 hover:text-[#C9A84C] hover:bg-[rgba(201,168,76,0.08)]"
-                  style={{ color: isActive ? "#C9A84C" : "#FFFFFF" }}
+                  className="relative cursor-pointer rounded-lg px-4 py-2 text-[0.95rem] font-medium transition-all duration-200 hover:text-[#C9A84C] hover:bg-[rgba(201,168,76,0.08)]"
+                  style={{ color: isActive ? "#C9A84C" : "#171717" }}
                 >
                   {item.label}
                   {isActive && (
@@ -181,17 +181,17 @@ export default function Navbar() {
               <motion.span
                 animate={isMenuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -7 }}
                 transition={{ duration: 0.25 }}
-                className="absolute w-6 h-[2px] bg-white rounded"
+                className="absolute w-6 h-[2px] bg-[#171717] rounded"
               />
               <motion.span
                 animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
                 transition={{ duration: 0.2 }}
-                className="absolute w-6 h-[2px] bg-white rounded"
+                className="absolute w-6 h-[2px] bg-[#171717] rounded"
               />
               <motion.span
                 animate={isMenuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 7 }}
                 transition={{ duration: 0.25 }}
-                className="absolute w-6 h-[2px] bg-white rounded"
+                className="absolute w-6 h-[2px] bg-[#171717] rounded"
               />
             </button>
           </div>
@@ -207,7 +207,7 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-[9999] md:hidden"
             style={{
-              background: "rgba(10,10,10,0.98)",
+              background: "rgba(255,255,255,0.98)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
             }}
@@ -219,7 +219,7 @@ export default function Navbar() {
                     key={item.id}
                     type="button"
                     onClick={() => scrollToSection(item.id)}
-                    className="text-white text-2xl font-semibold transition-colors duration-200 hover:text-[#C9A84C]"
+                    className="text-[#171717] text-2xl font-semibold transition-colors duration-200 hover:text-[#C9A84C]"
                   >
                     {item.label}
                   </button>

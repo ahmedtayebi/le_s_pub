@@ -22,16 +22,16 @@ function FloatingBadge({
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay }}
             style={{
                 position: "absolute",
-                background: "rgba(0,0,0,0.8)",
+                background: "rgba(255,255,255,0.9)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 border: "1px solid rgba(201,168,76,0.3)",
                 borderRadius: 20,
                 padding: "8px 14px",
-                color: "#fff",
+                color: "#171717",
                 fontSize: "0.8rem",
                 fontFamily: "Cairo, sans-serif",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+                boxShadow: "0 10px 28px rgba(32,26,10,0.12)",
                 whiteSpace: "nowrap",
                 zIndex: 10,
                 display: "flex",
@@ -85,11 +85,11 @@ function BrowserMockup() {
                     style={{
                         width: "100%",
                         maxWidth: 480,
-                        background: "#0d0d0d",
+                        background: "#ffffff",
                         borderRadius: 16,
-                        border: "1px solid rgba(255,255,255,0.1)",
+                        border: "1px solid rgba(201,168,76,0.18)",
                         boxShadow:
-                            "0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.1), inset 0 1px 0 rgba(255,255,255,0.05)",
+                            "0 30px 70px rgba(32,26,10,0.16), 0 0 0 1px rgba(201,168,76,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
                         overflow: "hidden",
                         margin: "0 auto",
                     }}
@@ -98,8 +98,8 @@ function BrowserMockup() {
                     <div
                         style={{
                             height: 44,
-                            background: "#1a1a1a",
-                            borderBottom: "1px solid rgba(255,255,255,0.06)",
+                            background: "#f6f1e5",
+                            borderBottom: "1px solid rgba(201,168,76,0.18)",
                             padding: "0 16px",
                             display: "flex",
                             alignItems: "center",
@@ -122,12 +122,12 @@ function BrowserMockup() {
                         </div>
                         <div
                             style={{
-                                background: "#252525",
+                                background: "#ffffff",
                                 borderRadius: 6,
                                 padding: "4px 12px",
                                 width: "60%",
                                 textAlign: "center",
-                                color: "#666",
+                                color: "#8a7a4f",
                                 fontSize: "0.78rem",
                                 fontFamily: "monospace",
                             }}
@@ -141,7 +141,7 @@ function BrowserMockup() {
                     <div
                         style={{
                             height: 120,
-                            background: "linear-gradient(135deg, #1a1a1a, #0d0d0d)",
+                            background: "linear-gradient(135deg, #fff8e8, #f7f4ec)",
                             padding: 16,
                             display: "flex",
                             flexDirection: "column",
@@ -171,7 +171,7 @@ function BrowserMockup() {
                                 width: "50%",
                                 height: 6,
                                 borderRadius: 3,
-                                background: "rgba(255,255,255,0.3)",
+                                background: "rgba(23,23,23,0.18)",
                             }}
                         />
                         <div
@@ -189,7 +189,7 @@ function BrowserMockup() {
                     <div
                         style={{
                             height: 70,
-                            background: "#111",
+                            background: "#f7f3ea",
                             padding: "8px 12px",
                             display: "flex",
                             gap: 8,
@@ -201,7 +201,7 @@ function BrowserMockup() {
                                 key={i}
                                 style={{
                                     flex: 1,
-                                    background: "#1a1a1a",
+                                    background: "#ffffff",
                                     borderRadius: 6,
                                     border: "1px solid rgba(201,168,76,0.3)",
                                 }}
@@ -213,7 +213,7 @@ function BrowserMockup() {
                     <div
                         style={{
                             height: 90,
-                            background: "#0d0d0d",
+                            background: "#fffaf0",
                             padding: "10px 12px",
                             display: "flex",
                             flexDirection: "column",
@@ -226,7 +226,7 @@ function BrowserMockup() {
                                 width: "100%",
                                 height: 14,
                                 borderRadius: 7,
-                                background: "#222",
+                                background: "rgba(23,23,23,0.12)",
                             }}
                         />
                         <div
@@ -234,7 +234,7 @@ function BrowserMockup() {
                                 width: "80%",
                                 height: 14,
                                 borderRadius: 7,
-                                background: "#222",
+                                background: "rgba(23,23,23,0.12)",
                             }}
                         />
                         <div
@@ -269,9 +269,9 @@ export default function HeroService() {
                 display: "flex",
                 alignItems: "center",
                 background: `
-          radial-gradient(ellipse 600px 500px at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
-          radial-gradient(ellipse 400px 400px at 80% 20%, rgba(201,168,76,0.05) 0%, transparent 60%),
-          #000000`,
+          radial-gradient(ellipse 600px 500px at 20% 50%, rgba(201,168,76,0.18) 0%, transparent 60%),
+          radial-gradient(ellipse 400px 400px at 80% 20%, rgba(240,192,64,0.14) 0%, transparent 60%),
+          #fbfaf6`,
                 fontFamily: "Cairo, sans-serif",
                 position: "relative",
                 overflow: "hidden",
@@ -347,7 +347,7 @@ export default function HeroService() {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                             style={{
-                                color: "#fff",
+                                color: "#171717",
                                 fontSize: "clamp(2.8rem, 5vw, 4.5rem)",
                                 fontWeight: 900,
                                 lineHeight: 1.2,
@@ -378,7 +378,7 @@ export default function HeroService() {
                             >
                                 لعلامتك التجارية
                             </span>{" "}
-                            <span style={{ color: "#fff" }}>الآن</span>
+                            <span style={{ color: "#171717" }}>الآن</span>
                         </motion.h1>
                     </div>
 
@@ -388,7 +388,7 @@ export default function HeroService() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.5 }}
                         style={{
-                            color: "#888",
+                            color: "#55524a",
                             fontSize: "1.05rem",
                             maxWidth: 480,
                             lineHeight: 1.8,
@@ -412,7 +412,7 @@ export default function HeroService() {
                             <span
                                 key={item}
                                 style={{
-                                    color: "#888",
+                                    color: "#55524a",
                                     fontSize: "0.85rem",
                                     fontFamily: "Cairo, sans-serif",
                                     display: "flex",
@@ -467,8 +467,8 @@ export default function HeroService() {
                             onClick={() => scrollTo("problem-solution")}
                             style={{
                                 background: "transparent",
-                                border: "1.5px solid rgba(255,255,255,0.2)",
-                                color: "#fff",
+                                border: "1.5px solid rgba(23,23,23,0.18)",
+                                color: "#171717",
                                 padding: "16px 28px",
                                 borderRadius: 14,
                                 fontSize: "1rem",
@@ -483,8 +483,8 @@ export default function HeroService() {
                             }}
                             onMouseLeave={(e) => {
                                 const btn = e.currentTarget as HTMLButtonElement;
-                                btn.style.borderColor = "rgba(255,255,255,0.2)";
-                                btn.style.color = "#fff";
+                                btn.style.borderColor = "rgba(23,23,23,0.18)";
+                                btn.style.color = "#171717";
                             }}
                         >
                             لماذا تحتاج Landing Page؟

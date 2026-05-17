@@ -38,8 +38,8 @@ html {
 }
 
 body {
-  background-color: var(--color-charcoal-deep);
-  color: #ffffff;
+  background-color: #fbfaf6;
+  color: #171717;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -52,7 +52,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111111;
+  background: #f3efe4;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -67,7 +67,7 @@ body {
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #C9A84C #111111;
+  scrollbar-color: #C9A84C #f3efe4;
 }
 
 /* ───────────────────────────────────────────────
