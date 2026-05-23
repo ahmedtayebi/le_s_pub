@@ -1,399 +1,103 @@
-"use client";
+import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 
-import Navbar from "@/components/sections/Navbar";
-import HeroService from "@/components/landing-service/HeroService";
-import HowItWorks from "@/components/landing-service/HowItWorks";
-import Portfolio from "@/components/landing-service/Portfolio";
-// import ServiceOrderForm from "@/components/landing-service/ServiceOrderForm";
-import FinalCTA from "@/components/landing-service/FinalCTA";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import {
-    XCircle,
-    CheckCircle2,
-    TrendingDown,
-    Users,
-    Layout,
-    TrendingUp,
-    PhoneCall,
-    Palette,
-    Smartphone,
-    Zap,
-    Link2,
-    FileUp,
-    Headphones,
-} from "lucide-react";
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// INLINE SECTIONS — Problem/Solution, Features, HowItWorks, Portfolio,
-// ServiceOrderForm, FinalCTA are all defined here in one file for simplicity.
-// ═══════════════════════════════════════════════════════════════════════════════
-
-// ─── Shared ───────────────────────────────────────────────────────────────────
-
-const GOLD = "#C9A84C";
-const GOLD_GRADIENT = "linear-gradient(135deg, #C9A84C, #F0C040)";
-
-function SectionHeading({
-    title,
-    subtitle,
-    light = false,
-}: {
-    title: string;
-    subtitle: string;
-    light?: boolean;
-}) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            style={{ textAlign: "center", marginBottom: 56, fontFamily: "Cairo, sans-serif" }}
-        >
-            <h2
-                style={{
-                    fontSize: "clamp(2rem, 4vw, 3rem)",
-                    fontWeight: 900,
-                    color: light ? "#171717" : "#171717",
-                    margin: "0 0 12px",
-                }}
-            >
-                {title}
-            </h2>
-            <p style={{ color: "#666257", fontSize: "1.05rem", maxWidth: 560, margin: "0 auto" }}>
-                {subtitle}
-            </p>
-            <div
-                style={{
-                    width: 60,
-                    height: 3,
-                    borderRadius: 2,
-                    background: GOLD_GRADIENT,
-                    margin: "20px auto 0",
-                }}
-            />
-        </motion.div>
-    );
-}
-
-// ─── Problem / Solution ───────────────────────────────────────────────────────
-
-function ProblemSolution() {
-    const problems = [
-        { icon: <TrendingDown size={18} color="#ef4444" />, text: "ما عندكش موقع واضح لعرض خدماتك" },
-        { icon: <Users size={18} color="#ef4444" />, text: "عملاؤك ما يلقاوكش بسهولة أونلاين" },
-        { icon: <Layout size={18} color="#ef4444" />, text: "السوشيال ميديا وحدها ما تكفيش" },
-    ];
-    const solutions = [
-        { icon: <CheckCircle2 size={18} color={GOLD} />, text: "صفحة هبوط احترافية على اسم براندك" },
-        { icon: <PhoneCall size={18} color={GOLD} />, text: "عميلك يلقاك ويطلب مباشرة" },
-        { icon: <TrendingUp size={18} color={GOLD} />, text: "حضور رقمي يرفع مبيعاتك" },
-    ];
-
-    return (
-        <section
-            id="problem-solution"
-            dir="rtl"
-            style={{
-                padding: "100px 24px",
-                background: "#fbfaf6",
-                fontFamily: "Cairo, sans-serif",
-            }}
-        >
-            <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-                <SectionHeading
-                    title="هل عندك واحد من هاد المشاكل؟"
-                    subtitle="أغلب البراندات الجزائرية تعاني من نفس التحديات"
-                />
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr",
-                        gap: 40,
-                    }}
-                    className="ps-grid"
-                >
-                    {/* Problems */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        style={{
-                            background: "#fff",
-                            border: "1px solid rgba(239,68,68,0.18)",
-                            borderRadius: 20,
-                            padding: 32,
-                            boxShadow: "0 18px 45px rgba(32,26,10,0.06)",
-                        }}
-                    >
-                        <h3 style={{ color: "#ff6b6b", fontSize: "1.15rem", fontWeight: 800, marginBottom: 20 }}>
-                            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                                <XCircle size={22} color="#ef4444" />
-                                المشكلة
-                            </span>
-                        </h3>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                            {problems.map((p, i) => (
-                                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                    <span
-                                        style={{
-                                            width: 34,
-                                            height: 34,
-                                            borderRadius: "50%",
-                                            background: "rgba(239,68,68,0.1)",
-                                            border: "1px solid rgba(239,68,68,0.2)",
-                                            display: "inline-flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            flexShrink: 0,
-                                        }}
-                                    >
-                                        {p.icon}
-                                    </span>
-                                    <span style={{ color: "#4f4a43", fontSize: "0.95rem" }}>{p.text}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* Solutions */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        style={{
-                            background: "#fff",
-                            border: "1px solid rgba(201,168,76,0.2)",
-                            borderRadius: 20,
-                            padding: 32,
-                            boxShadow: "0 18px 45px rgba(32,26,10,0.06)",
-                        }}
-                    >
-                        <h3 style={{ color: GOLD, fontSize: "1.15rem", fontWeight: 800, marginBottom: 20 }}>
-                            الحل مع Le S Publicité
-                        </h3>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                            {solutions.map((s, i) => (
-                                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                    <span
-                                        style={{
-                                            width: 34,
-                                            height: 34,
-                                            borderRadius: "50%",
-                                            background: "rgba(201,168,76,0.1)",
-                                            border: "1px solid rgba(201,168,76,0.2)",
-                                            display: "inline-flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            flexShrink: 0,
-                                        }}
-                                    >
-                                        {s.icon}
-                                    </span>
-                                    <span style={{ color: "#4f4a43", fontSize: "0.95rem" }}>{s.text}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </div>
-
-            <style>{`
-        @media (max-width: 768px) {
-          .ps-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-        </section>
-    );
-}
-
-// ─── Features ─────────────────────────────────────────────────────────────────
-
-function Features() {
-    const features = [
-        {
-            icon: <Palette size={24} color={GOLD} />,
-            title: "تصميم فريد",
-            desc: "تصميم مخصص يعكس هوية علامتك — مش قالب جاهز",
-        },
-        {
-            icon: <Smartphone size={24} color={GOLD} />,
-            title: "متجاوب مع الموبايل",
-            desc: "صفحتك تظهر ممتازة على كل الأجهزة بدون استثناء",
-        },
-        {
-            icon: <Zap size={24} color={GOLD} />,
-            title: "سرعة تحميل عالية",
-            desc: "أداء سريع لضمان أفضل تجربة لزوار صفحتك",
-        },
-        {
-            icon: <Link2 size={24} color={GOLD} />,
-            title: "ربط السوشيال ميديا",
-            desc: "نربط صفحتك بكل حساباتك لتكون مرجعك الرقمي الأول",
-        },
-        {
-            icon: <FileUp size={24} color={GOLD} />,
-            title: "نموذج طلب مدمج",
-            desc: "يقدر عميلك يطلب مباشرة من الصفحة — بدون تعقيدات",
-        },
-        {
-            icon: <Headphones size={24} color={GOLD} />,
-            title: "دعم فني مستمر",
-            desc: "بعد التسليم نبقى معاك لأي تعديل أو تحديث تحتاجه",
-        },
-    ];
-
-    return (
-        <section
-            id="features"
-            dir="rtl"
-            style={{
-                padding: "100px 24px",
-                background: "#f6f1e5",
-                fontFamily: "Cairo, sans-serif",
-            }}
-        >
-            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-                <SectionHeading
-                    title="واش رايح تاخد؟"
-                    subtitle="كل اللي تحتاجه في صفحة هبوط ناجحة"
-                />
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3, 1fr)",
-                        gap: 20,
-                    }}
-                    className="features-grid"
-                >
-                    {features.map((f, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.08, duration: 0.5 }}
-                            whileHover={{
-                                borderColor: "rgba(201,168,76,0.4)",
-                                y: -4,
-                            }}
-                            style={{
-                                background: "#fff",
-                                border: "1px solid rgba(201,168,76,0.16)",
-                                borderRadius: 18,
-                                padding: 28,
-                                transition: "border-color 0.3s",
-                                boxShadow: "0 16px 38px rgba(32,26,10,0.06)",
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: 52,
-                                    height: 52,
-                                    borderRadius: 14,
-                                    background: "linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04))",
-                                    border: "1px solid rgba(201,168,76,0.2)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    marginBottom: 18,
-                                }}
-                            >
-                                {f.icon}
-                            </div>
-                            <h3 style={{ color: "#171717", fontWeight: 700, fontSize: "1.05rem", marginBottom: 8 }}>
-                                {f.title}
-                            </h3>
-                            <p style={{ color: "#666257", fontSize: "0.88rem", lineHeight: 1.7, margin: 0 }}>
-                                {f.desc}
-                            </p>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-
-            <style>{`
-        @media (max-width: 900px) {
-          .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 600px) {
-          .features-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-        </section>
-    );
-}
-
-
-// ─── How It Works & Portfolio ─────────────────────────────────────────────────
-// Imported from components/landing-service/HowItWorks.tsx
-// Imported from components/landing-service/Portfolio.tsx
-
-
-
-// ─── Service Order Form & Final CTA ──────────────────────────────────────────
-// Imported from components/landing-service/ServiceOrderForm.tsx
-// Imported from components/landing-service/FinalCTA.tsx
-
-
-// ─── Footer (minimal for service page) ────────────────────────────────────────
-
-function ServiceFooter() {
-    const router = useRouter();
-
-    return (
-        <footer
-            dir="rtl"
-            style={{
-                padding: "30px 24px",
-                background: "#fbfaf6",
-                borderTop: "1px solid rgba(201,168,76,0.18)",
-                fontFamily: "Cairo, sans-serif",
-                textAlign: "center",
-            }}
-        >
-            <button
-                onClick={() => router.push("/")}
-                style={{
-                    background: "none",
-                    border: "none",
-                    color: GOLD,
-                    cursor: "pointer",
-                    fontSize: "0.88rem",
-                    fontFamily: "Cairo, sans-serif",
-                    marginBottom: 8,
-                }}
-            >
-                ← العودة للصفحة الرئيسية
-            </button>
-            <p style={{ color: "#777066", fontSize: "0.8rem", margin: 0 }}>
-                © {new Date().getFullYear()} Le S Publicité — جميع الحقوق محفوظة
-            </p>
-        </footer>
-    );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// PAGE
-// ═══════════════════════════════════════════════════════════════════════════════
+const projects = [
+    {
+        brandName: "Luxors",
+        category: "بيع الروائح",
+        image: "/p1.png",
+        link: "https://luxoradz.netlify.app/",
+    },
+    {
+        brandName: "Be Queen DZ",
+        category: "أزياء نسائية",
+        image: "/pp2.png",
+        link: "https://www.bequeencollection.com/",
+    },
+    {
+        brandName: "Kella Orpin",
+        category: "موقع صيدلية",
+        image: "/pp3.png",
+        link: "https://kella-orpin.vercel.app/",
+    },
+    {
+        brandName: "Zaki Horse DZ",
+        category: "متجر إلكتروني",
+        image: "/p5.png",
+        link: "https://zakihorse-dz.youcan.store/",
+    },
+];
 
 export default function LandingServicePage() {
     return (
-        <>
-            <Navbar />
-            <div id="hero">
-                <HeroService />
-            </div>
-            <Portfolio />
-            <ProblemSolution />
-            <Features />
-            <HowItWorks />
-            {/* <ServiceOrderForm /> */}
-            <FinalCTA />
-            <ServiceFooter />
-        </>
+        <main
+            dir="rtl"
+            className="min-h-screen bg-[#f8f7f2] px-4 py-10 text-[#151515] sm:px-6 lg:px-8"
+        >
+            <header className="mx-auto flex max-w-5xl flex-col items-center text-center">
+                <Image
+                    src="/logo.png"
+                    alt="Le S Publicité"
+                    width={170}
+                    height={90}
+                    priority
+                    className="h-auto w-[150px] object-contain sm:w-[170px]"
+                />
+
+                <h1 className="mt-5 text-balance text-2xl font-black leading-[1.35] sm:text-4xl">
+                    أعمالنا تتكلم قبلنا
+                </h1>
+
+                <p className="mt-3 max-w-md text-pretty text-sm leading-7 text-[#64615a] sm:text-base">
+                    صفحات رقمية بسيطة، واضحة، ومصممة لتترك انطباعًا محترفًا من أول نظرة.
+                </p>
+            </header>
+
+            <section
+                aria-label="نماذج من أعمالنا"
+                className="mx-auto mt-12 flex max-w-5xl flex-col gap-5 sm:mt-16"
+            >
+                {projects.map((project, index) => (
+                    <a
+                        key={project.brandName}
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group grid overflow-hidden rounded-lg border border-[#ded8c7] bg-white shadow-[0_18px_45px_rgba(26,21,12,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#c9a84c] hover:shadow-[0_24px_60px_rgba(26,21,12,0.12)] lg:grid-cols-[minmax(0,1fr)_360px]"
+                    >
+                        <div className="relative aspect-[16/10] overflow-hidden bg-[#ece7da] lg:order-2 lg:aspect-auto lg:min-h-[260px]">
+                            <Image
+                                src={project.image}
+                                alt={project.brandName}
+                                fill
+                                sizes="(min-width: 1024px) 360px, 100vw"
+                                className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                            />
+                        </div>
+
+                        <div className="flex min-h-[190px] flex-col justify-between p-6 sm:p-8 lg:order-1">
+                            <div>
+                                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#9a7b28]">
+                                    {String(index + 1).padStart(2, "0")} / {project.category}
+                                </span>
+
+                                <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">
+                                    {project.brandName}
+                                </h2>
+                            </div>
+
+                            <span className="mt-8 inline-flex w-fit items-center gap-2 rounded-md border border-[#151515] px-4 py-2 text-sm font-bold transition duration-300 group-hover:border-[#c9a84c] group-hover:bg-[#c9a84c] group-hover:text-black">
+                                مشاهدة المشروع
+                                <ExternalLink size={16} strokeWidth={2.4} />
+                            </span>
+                        </div>
+                    </a>
+                ))}
+            </section>
+
+            <footer className="mx-auto mt-12 max-w-5xl border-t border-[#ded8c7] py-6 text-center text-xs text-[#777166]">
+                © {new Date().getFullYear()} Le S Publicité
+            </footer>
+        </main>
     );
 }
