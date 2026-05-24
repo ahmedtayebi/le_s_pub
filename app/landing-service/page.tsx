@@ -45,7 +45,7 @@ export default function LandingServicePage() {
                 />
 
                 <h1 className="mt-3 text-balance text-2xl font-black leading-[1.3] sm:text-3xl">
-                    أعمالنا تتكلم قبلنا
+نماذج من اعمالنا 
                 </h1>
 
                 <p className="mt-1.5 max-w-md text-pretty text-sm leading-6 text-[#64615a]">

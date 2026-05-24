@@ -511,7 +511,7 @@ export default function Portfolio() {
                                 verticalAlign: "middle",
                             }}
                         />
-                        أعمالنا تتحدث عنا
+نماذج من اعمالنا
                     </motion.p>
 
                     <motion.h2
